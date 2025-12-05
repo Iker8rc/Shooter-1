@@ -9,6 +9,9 @@ public class EnemyController : MonoBehaviour
     private Transform player;
     private NavMeshAgent agent;
     private bool following;
+    [SerializeField]
+    private Transform[] patrolPoints;
+    private int patrolIndex;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +26,25 @@ public class EnemyController : MonoBehaviour
     {
         if (following == true)
         {
+            agent.speed = speed;
+            agent.stoppingDistance = 10;
+            animator.SetFloat("Vertical", 1f);
             agent.SetDestination(player.position);
+        }
+        else
+        {
+            agent.speed = speed * 0.5f;
+            animator.SetFloat("Vertical", 0.4f);
+            agent.SetDestination(patrolPoints[patrolIndex].position);
+            float distance = (patrolPoints[patrolIndex].position - transform.position).magnitude;
+            if (distance < 1)
+            {
+                patrolIndex += 1;
+                if (patrolIndex >= patrolPoints.Length)
+                {
+                    patrolIndex = 0;
+                }
+            }
         }
         
     }

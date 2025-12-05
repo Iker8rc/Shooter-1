@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private float lookSpeed;
     [SerializeField]
     private Transform followTarget;
+    [SerializeField]
+    private Weapon weapon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +40,8 @@ public class PlayerController : MonoBehaviour
     }
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
+        weapon.Shoot();
+
         if (callbackContext.phase == InputActionPhase.Started)
         {
             animator.SetBool("Shooting", true);
@@ -46,6 +50,13 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Shooting", false);
         }
-
+    }
+    public void Reload(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase == InputActionPhase.Started)
+        {
+            //anim recarga
+            weapon.Reload();
+        }
     }
 }
