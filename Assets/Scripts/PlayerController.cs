@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,8 +13,12 @@ public class PlayerController : MonoBehaviour
     private float lookSpeed;
     [SerializeField]
     private Transform followTarget;
+    private LevelManager levelManager;
     [SerializeField]
-    private Weapon weapon;
+    private float timeToStartHealth;
+    [SerializeField]
+    private float healthSpeed;
+    private IEnumerator corrutineCurar;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +26,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
 
     // Update is called once per frame
@@ -40,15 +46,17 @@ public class PlayerController : MonoBehaviour
     }
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
-        weapon.Shoot();
-
         if (callbackContext.phase == InputActionPhase.Started)
         {
             animator.SetBool("Shooting", true);
+            GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].Triggered();
+            playerInput.actions["Reload"].Disable();
         }
         else if (callbackContext.phase == InputActionPhase.Canceled)
         {
             animator.SetBool("Shooting", false);
+            GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].TriggerReleased();
+            playerInput.actions["Reload"].Enable();
         }
     }
     public void Reload(InputAction.CallbackContext callbackContext)
@@ -56,7 +64,48 @@ public class PlayerController : MonoBehaviour
         if (callbackContext.phase == InputActionPhase.Started)
         {
             //anim recarga
-            weapon.Reload();
+            animator.SetTrigger("Reload");
+            GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].Reload();
+            levelManager.UpdateBullets();
+            playerInput.actions["Shoot"].Disable();
         }
+    }
+    public void CanShoot()
+    {
+        playerInput.actions["Shoot"].Enable();
+    }
+    public void TakeDamage(float _damage)
+    {
+        if(corrutineCurar != null)
+        {
+            StopCoroutine(corrutineCurar);
+        }
+       
+        GameManager.instance.GetGameData.CurrentLife -= _damage;
+        if(GameManager.instance.GetGameData.CurrentLife <= 0)
+        {
+            //Death
+            GameObject ragdollPrefab = (GameObject) Resources.Load("SwatRagdoll");
+            Instantiate(ragdollPrefab, transform.position, transform.rotation);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            corrutineCurar = Health();
+            StartCoroutine(corrutineCurar);
+        }
+        levelManager.UpdateLife();
+    }
+    IEnumerator Health()
+    {
+        yield return new WaitForSeconds(timeToStartHealth);
+        while (GameManager.instance.GetGameData.CurrentLife < GameManager.instance.GetGameData.MaxLife)
+        {
+            GameManager.instance.GetGameData.CurrentLife = Mathf.Clamp(GameManager.instance.GetGameData.CurrentLife + (healthSpeed*Time.deltaTime), 0, 
+                GameManager.instance.GetGameData.MaxLife);
+            levelManager.UpdateLife();
+            yield return null;
+        }
+
     }
 }
