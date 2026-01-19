@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +20,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float healthSpeed;
     private IEnumerator corrutineCurar;
+    [SerializeField]
+    private Transform rightHand, leftHand;
+    [SerializeField]
+    private GameObject grenadePrefab;
+    [SerializeField]
+    private Transform grenadeSpawnPoint;
+    private LineRenderer lineRenderer;
+    [SerializeField]
+    private float throwForce;
 
+    private 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +38,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        lineRenderer = grenadeSpawnPoint.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -37,6 +49,19 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Vertical", leftStickInput.y);
         Vector3 movement = (transform.forward * leftStickInput.y + transform.right * leftStickInput.x) * speed;
         rb.linearVelocity = new Vector3 (movement.x, rb.linearVelocity.y, movement.z);
+
+        //Line renderer grenade
+        if(lineRenderer.enabled == true)
+        {
+            Vector3 speed = (Camera.main.transform.forward + Vector3.up) * throwForce;
+            lineRenderer.positionCount = 100;
+            for (int i = 0; i < lineRenderer.positionCount; i++)
+            {
+                float t /*t de tiempo*/ = i * 0.1f;
+                Vector3 position = grenadeSpawnPoint.position + speed * t + 0.5f * Physics.gravity * t * t;
+                lineRenderer.SetPosition(i, position);
+            }
+        }
     }
     private void LateUpdate()
     {
@@ -107,5 +132,36 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+    }
+    public void ThrowGrenade (InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            animator.SetBool("Grenade", true);
+
+            //Cambiar arma
+            GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].transform.parent = leftHand;
+
+            //Granada
+            Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation,grenadeSpawnPoint);
+
+            //Mostrar linea trayectoria
+            lineRenderer.enabled = true;
+        }
+
+        if (context.canceled)
+        {
+            animator.SetBool("Grenade", false);
+            lineRenderer.enabled = false;
+        }
+    }
+    public void SoltarGranada()
+    {
+        Transform grenadeClone= grenadeSpawnPoint.GetChild(0);
+        grenadeClone.parent = null;
+        grenadeClone.GetComponent<Rigidbody>().isKinematic = false;
+        grenadeClone.GetComponent<Rigidbody>().linearVelocity = (Camera.main.transform.forward + Vector3.up) * throwForce;
+        grenadeClone.GetComponent<Collider>().enabled = true;
+        grenadeClone.GetComponent <Grenade>().countDownActive = true;
     }
 }
