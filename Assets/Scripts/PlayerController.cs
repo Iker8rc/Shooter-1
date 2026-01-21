@@ -93,11 +93,13 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].Reload();
             levelManager.UpdateBullets();
             playerInput.actions["Shoot"].Disable();
+            playerInput.actions["ThrowGrenade"].Disable();
         }
     }
     public void CanShoot()
     {
         playerInput.actions["Shoot"].Enable();
+        playerInput.actions["ThrowGrenade"].Enable();
     }
     public void TakeDamage(float _damage)
     {
@@ -147,6 +149,9 @@ public class PlayerController : MonoBehaviour
 
             //Mostrar linea trayectoria
             lineRenderer.enabled = true;
+
+            //Desactivar que se pueda disparar
+            playerInput.actions["Shoot"].Disable();
         }
 
         if (context.canceled)
@@ -163,5 +168,10 @@ public class PlayerController : MonoBehaviour
         grenadeClone.GetComponent<Rigidbody>().linearVelocity = (Camera.main.transform.forward + Vector3.up) * throwForce;
         grenadeClone.GetComponent<Collider>().enabled = true;
         grenadeClone.GetComponent <Grenade>().countDownActive = true;
+    }
+    public void FinishGrenade()
+    {
+        CanShoot();
+        GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].transform.parent = rightHand;
     }
 }

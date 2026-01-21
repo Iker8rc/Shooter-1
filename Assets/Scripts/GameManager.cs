@@ -30,4 +30,25 @@ public class GameManager : MonoBehaviour
         get {  return gameData; }
         set { gameData = value; }
     }
+
+    public void SaveGame()
+    {
+        string data = JsonUtility.ToJson(gameData);
+        PlayerPrefs.SetString("SavedData", data);
+    }
+    public void LoadGame()
+    {
+        if(PlayerPrefs.HasKey("SavedData"))
+        {
+            string data = PlayerPrefs.GetString("SavedData");
+            gameData = JsonUtility.FromJson<GameData>(data);
+        }
+        else
+        {
+            //Valores iniciales dle juego
+            gameData = new GameData();
+            gameData.CurrentLife = 10;
+            gameData.MaxLife = 10;
+        }
+    }
 }
