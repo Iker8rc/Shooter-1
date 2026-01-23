@@ -97,6 +97,7 @@ public class EnemyController : MonoBehaviour
         {
             //vivo + hit reaction
             animator.SetTrigger("Hit");
+            //AudioManager.instance.PlaySFX( , transform.position);
         }
     }
     public void Reload()
