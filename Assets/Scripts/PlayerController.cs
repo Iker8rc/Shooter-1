@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private LineRenderer lineRenderer;
     [SerializeField]
     private float throwForce;
+    [SerializeField]
+    private Transform spineBone;
+    [SerializeField]
+    private float spineOffset;
 
     private 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -67,7 +71,8 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 lookInput = playerInput.actions["Look"].ReadValue<Vector2>();
         followTarget.localEulerAngles += new Vector3(lookInput.y * lookSpeed * Time.deltaTime, 0, 0);
-        transform.eulerAngles += new Vector3(0, lookInput.x * lookSpeed * Time.deltaTime, 0); 
+        transform.eulerAngles += new Vector3(0, lookInput.x * lookSpeed * Time.deltaTime, 0);
+        spineBone.localEulerAngles = new Vector3(followTarget.localEulerAngles.x + spineOffset, spineBone.localEulerAngles.y, spineBone.localEulerAngles.z);
     }
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
