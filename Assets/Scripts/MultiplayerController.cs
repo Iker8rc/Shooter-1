@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
+    [SerializeField]
     private PlayerInput playerInput;
     [SerializeField]
     private float speed;

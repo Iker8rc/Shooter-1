@@ -132,7 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058fa9951dcc77644a6c07f7c1b3df05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerController
+  playerInput: {fileID: 0}
   speed: 10
+  bulletSpawnPoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!114 &7348938571419669463
 MonoBehaviour:
   m_ObjectHideFlags: 0
