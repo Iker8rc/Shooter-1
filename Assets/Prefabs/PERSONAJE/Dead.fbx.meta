@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0e15f388571ae1e42859bf756d866b30
+guid: 2ee68458148c46444832f6b544af5681
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Emote
+      name: Death
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 55
+      lastFrame: 87
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -125,7 +125,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 93b400756a168214c98e411079ad2b33, type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e56fa12a4bf744e81a78dc3fe15899aa, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1

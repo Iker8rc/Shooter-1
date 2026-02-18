@@ -20,6 +20,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject bulletPrefab;
     private float life;
     bool ejemplo;
+    private Animator animator;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -39,6 +40,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         if(photonView.IsMine == true)
@@ -57,6 +59,9 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             Vector3 derecha = Vector3.forward + Vector3.right;
             Vector3 movement = ((Vector3.right * leftStickInput.y) + (Vector3.back * leftStickInput.x)) * speed;
             rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
+
+            bool run = leftStickInput.magnitude > 0.1f;
+            animator.SetBool("Run", run);
         }
         //mirar
         float y = Camera.main.GetComponent <CamMultiplayerController>().camOffset.y;
@@ -65,6 +70,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         Vector3 playerRot = transform.eulerAngles; 
         transform.LookAt(worldPos);
         transform.eulerAngles = new Vector3(playerRot.x, transform.eulerAngles.y, playerRot.z);
+
     }
 
     /// <summary>
@@ -127,7 +133,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         life -= damage;
         if (life <= 0)
         {
-            //muerte
+            animator.SetTrigger("Death");
             int deaths = 0;
             if(player.CustomProperties.ContainsKey("Muertes")== true)
             {
@@ -147,7 +153,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         
         else
         {
-            //anim muerte
+            animator.SetTrigger("Death");
         }
         
     }
