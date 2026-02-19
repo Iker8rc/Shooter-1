@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ShooterIvon.slnx"
+    "dotnet.defaultSolution": "MultiShooter.slnx"
 }
