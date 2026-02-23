@@ -22,7 +22,12 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     private float life;
     [SerializeField] 
     private float bulletDamage;
-    private bool isDead = false;
+    public bool isDead = false;
+
+    //Hacer ahora
+    [SerializeField]
+    private float healthSpeed;
+    //private IEnumerator corrutineCurar;
 
     bool ejemplo;
     private Animator animator;

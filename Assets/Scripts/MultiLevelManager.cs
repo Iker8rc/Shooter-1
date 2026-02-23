@@ -1,10 +1,15 @@
 using Photon.Pun;
 using UnityEngine;
+using TMPro;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class MultiLevelManager : MonoBehaviour
 {
     [SerializeField]
     private Transform[] spawnPoints;
+    [SerializeField]
+    private TextMeshProUGUI bulletMagazine, totalBullets;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,5 +21,14 @@ public class MultiLevelManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void UpdateBullets()
+    {
+        bulletMagazine.text = GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].MagazineBullets;
+        totalBullets.text = GameManager.instance.GetGameData.Weapon[GameManager.instance.GetGameData.WeaponIndex].TotalBullets;
+    }
+    public void UpdateLife()
+    {
+        float percentage = 1 - (GameManager.instance.GetGameData.CurrentLife/ GameManager.instance.GetGameData.MaxLife);
     }
 }

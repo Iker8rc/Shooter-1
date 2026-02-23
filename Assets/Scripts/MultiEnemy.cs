@@ -6,17 +6,17 @@ public class MultiEnemy : MonoBehaviour
     private UnityEngine.AI.NavMeshAgent agent;
 
     [SerializeField]
-    private float speed = 3f;
+    private float speed;
     [SerializeField]
     private float life;
     [SerializeField]
-    private float attackRange = 1.5f;
+    private float attackRange;
     [SerializeField]
-    private float damage = 10f;
+    private float damage;
     [SerializeField]
-    private float attackCooldown = 1.2f;
+    private float attackCooldown;
     private Transform targetPlayer;  
-    private float attackTimer = 0f;
+    private float attackTimer;
     private bool Muerto;
 
     private Transform FollowPlayer()
@@ -48,6 +48,13 @@ public class MultiEnemy : MonoBehaviour
     {
         if (Muerto == true)
         {
+            return;
+        }
+        if (targetPlayer.GetComponent<MultiplayerController>().isDead == true)
+        {
+            agent.isStopped = true;
+            animator.SetBool("Run", false);
+            animator.SetBool("Iddle", true);
             return;
         }
 

@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerManager : MonoBehaviourPunCallbacks
 {
@@ -10,6 +11,8 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     private GameObject panelLoading;
     [SerializeField]
     private GameObject panelRoom;
+    [SerializeField]
+    private GameObject panelMulti;
     [SerializeField]
     private TextMeshProUGUI users;
     [SerializeField]
@@ -103,5 +106,22 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
             }
         }
         PhotonNetwork.LoadLevel("MultiplayerLevel");
+    }
+    public void MaxPlayers(int _maxPlayers)
+    {
+        maxPlayers = _maxPlayers;
+        panelLoading.SetActive(true);
+        PhotonNetwork.NickName = inputNickName.text;
+        PhotonNetwork.ConnectUsingSettings();
+    }
+    public void Multiplayer()
+    {
+        //Elegir num de jugadores 
+        panelMulti.SetActive(true);
+    }
+    public void SoloPlayer()
+    {
+        panelLoading.SetActive(true);
+        SceneManager.LoadScene("MultiplayerLevel"); 
     }
 }
