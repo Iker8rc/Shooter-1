@@ -17,6 +17,7 @@ public class MultiEnemy : MonoBehaviour
     private float attackCooldown = 1.2f;
     private Transform targetPlayer;  
     private float attackTimer = 0f;
+    private bool Muerto;
 
     private Transform FollowPlayer()
     {
@@ -45,6 +46,11 @@ public class MultiEnemy : MonoBehaviour
 
     void Update()
     {
+        if (Muerto == true)
+        {
+            return;
+        }
+
         if (targetPlayer == null)
         {
             targetPlayer = FollowPlayer();
@@ -108,7 +114,10 @@ public class MultiEnemy : MonoBehaviour
 
     private void Die()
     {
-        agent.isStopped = true; //prueba
+        //Desactivar followPlayer
+        agent.Stop();
+        agent.isStopped = true;
+        Muerto = true;
         animator.SetTrigger("Death");
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject, 2f);
