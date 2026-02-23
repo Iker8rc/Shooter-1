@@ -8,14 +8,13 @@ public class MultiEnemy : MonoBehaviour
     [SerializeField]
     private float speed = 3f;
     [SerializeField]
-    private float life = 100f;
+    private float life;
     [SerializeField]
     private float attackRange = 1.5f;
     [SerializeField]
-    private float attackDamage = 10f;
+    private float damage = 10f;
     [SerializeField]
     private float attackCooldown = 1.2f;
-
     private Transform targetPlayer;  
     private float attackTimer = 0f;
 
@@ -25,19 +24,18 @@ public class MultiEnemy : MonoBehaviour
         Transform follow = null;
         float minDistance = Mathf.Infinity;
 
-
-    foreach (GameObject player in players)
-    {
-        float dist = Vector3.Distance(transform.position, player.transform.position);
-        if (dist < minDistance)
+        foreach (GameObject player in players)
         {
-            minDistance = dist;
-            follow = player.transform;
+            float dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                follow = player.transform;
+            }
         }
+        return follow; 
     }
 
-    return follow;
-}
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -88,40 +86,32 @@ public class MultiEnemy : MonoBehaviour
 
         animator.SetTrigger("Attack"); 
         attackTimer = attackCooldown;
-        Damage();
     }
 
-    private void Damage()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (targetPlayer == null)
+        if (collision.gameObject.tag == "Player")
         {
-            return;
+            collision.gameObject.GetComponent<MultiplayerController>().TakeDamage2(damage);
         }
-
-        float distance = Vector3.Distance(transform.position, targetPlayer.position);
-        if (distance > attackRange) 
-        {
-            return;
-        }
-
-        Debug.Log("HaceDaño");
-
-        /*PlayerHealth playerHealth = targetPlayer.GetComponent<PlayerHealth>();
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(attackDamage);
-        }*/
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float _damage)
     {
-        // Reducir vida
-        // Si llega a 0, morir
-        // Activar animación de hit (si quieres)
+        Debug.Log("Recibe daño");
+        life -= _damage;
+
+        if (life <= 0)
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
-        // Animación de muerte o desactivar enemigo
+        agent.isStopped = true; //prueba
+        animator.SetTrigger("Death");
+        GetComponent<Collider>().enabled = false;
+        Destroy(gameObject, 2f);
     }
 }
 

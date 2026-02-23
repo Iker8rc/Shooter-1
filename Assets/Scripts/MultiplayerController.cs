@@ -18,13 +18,17 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Transform bulletSpawnPoint;
     [SerializeField]
     public GameObject bulletPrefab;
+    [SerializeField]
     private float life;
+    [SerializeField] 
+    private float bulletDamage;
+    private bool isDead = false;
+
     bool ejemplo;
     private Animator animator;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //throw new System.NotImplementedException();
         if (stream.IsWriting == true)
         {
             stream.SendNext(ejemplo);
@@ -86,8 +90,17 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             if(context.performed == true)
             {
                 GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-                bulletClone.GetComponent<Rigidbody>().linearVelocity = bulletClone.transform.forward * 10;
-
+                Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
+                if (rbBullet != null)
+                {
+                    rbBullet.linearVelocity = bulletClone.transform.forward * 10;
+                }
+                
+                MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
+                if (bulletScript != null)
+                {
+                    bulletScript.damage = bulletDamage;
+                }
                 photonView.RPC("CopyShoot", RpcTarget.Others);
             }
         }
@@ -97,7 +110,17 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     void CopyShoot()
     {
         GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        bulletClone.GetComponent<Rigidbody>().linearVelocity = bulletClone.transform.forward * 10;
+        Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
+        if (rbBullet != null)
+        {
+            rbBullet.linearVelocity = bulletClone.transform.forward * 10;
+        }
+            
+        MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
+        if (bulletScript != null)
+        {
+            bulletScript.damage = bulletDamage;
+        }
     }
     /// <summary>
     /// Opcion 2 de disparo online
@@ -106,14 +129,22 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     /// <param name="context"></param>
     void Shoot2(InputAction.CallbackContext context)
     {
-        if(photonView.IsMine==true)
+        if(photonView.IsMine && context.performed)
         {
-            if(context.performed ==true)
+            GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
+        
+            if(rbBullet != null)
             {
-                GameObject bulletClone = PhotonNetwork.Instantiate ("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-                bulletClone.GetComponent<Rigidbody>().linearVelocity = bulletClone.transform.forward * 10;
+                rbBullet.linearVelocity = bulletClone.transform.forward * 10; 
             }
-        }
+        
+            MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
+            if(bulletScript != null)
+            {
+                bulletScript.damage = bulletDamage;
+            }
+        }              
     }
     //Esto en realidad va en la bala //
     void OnCollisionEnter(Collision collision)
@@ -127,10 +158,9 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
     //En el script del enemigo //
-    void TakeDamage(float damage, Player player)
-
+    public void TakeDamage(float _damage, Player player)
     {
-        life -= damage;
+        life -= _damage;
         if (life <= 0)
         {
             animator.SetTrigger("Death");
@@ -154,8 +184,26 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             animator.SetTrigger("Death");
+        }  
+    }
+    public void TakeDamage2(float damage2)
+    {
+        if (!photonView.IsMine) 
+        {
+            return; 
         }
-        
+
+        life -= damage2;
+
+        if (life <= 0)
+        {
+            animator.SetTrigger("Death");
+            isDead = true;
+            rb.linearVelocity = Vector3.zero; 
+            rb.isKinematic = true;
+            GetComponent<Collider>().enabled = false;
+            this.enabled = false;
+        }
     }
     void VerMuertes()
     {
