@@ -23,11 +23,13 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] 
     private float bulletDamage;
     public bool isDead = false;
+    public int totalKills;
 
-    //Hacer ahora
     [SerializeField]
-    private float healthSpeed;
-    //private IEnumerator corrutineCurar;
+    private float bulletSpeed;
+    [SerializeField]
+    private float shootCooldown;
+    private float timePass;
 
     bool ejemplo;
     private Animator animator;
@@ -61,6 +63,8 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        timePass += Time.deltaTime; 
+
         if(photonView.IsMine == true)
         {
             Vector2 leftStickInput = playerInput.actions["Move"].ReadValue<Vector2>();
@@ -94,20 +98,26 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if(context.performed == true)
             {
-                GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-                Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
-                if (rbBullet != null)
-                {
-                    rbBullet.linearVelocity = bulletClone.transform.forward * 10;
-                }
+                if (timePass>= shootCooldown)
+                {   
+                    timePass = 0;
+                    GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                    Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
+                    if (rbBullet != null)
+                    {
+                        rbBullet.linearVelocity = bulletClone.transform.forward * bulletSpeed;
+                         
+                    }
                 
-                MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
-                if (bulletScript != null)
-                {
-                    bulletScript.damage = bulletDamage;
+                    MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
+                    if (bulletScript != null)
+                    {
+                        bulletScript.damage = bulletDamage;
+                    }
+                    photonView.RPC("CopyShoot", RpcTarget.Others);
                 }
-                photonView.RPC("CopyShoot", RpcTarget.Others);
             }
+                 
         }
     }
 
@@ -118,7 +128,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
         if (rbBullet != null)
         {
-            rbBullet.linearVelocity = bulletClone.transform.forward * 10;
+            rbBullet.linearVelocity = bulletClone.transform.forward * bulletSpeed;
         }
             
         MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();

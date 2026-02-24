@@ -20,7 +20,7 @@ public class MultiLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
     public void UpdateBullets()
     {
@@ -31,4 +31,8 @@ public class MultiLevelManager : MonoBehaviour
     {
         float percentage = 1 - (GameManager.instance.GetGameData.CurrentLife/ GameManager.instance.GetGameData.MaxLife);
     }
+    /*public void UpdateKills()
+    {
+        killCount.text = "x" + MultiplayerManager.instance.totalKills.ToString();
+    }*/
 }
