@@ -1,6 +1,8 @@
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
-public class MultiEnemy : MonoBehaviour
+public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
 {
     private Animator animator;
     private UnityEngine.AI.NavMeshAgent agent;
@@ -108,18 +110,18 @@ public class MultiEnemy : MonoBehaviour
             collision.gameObject.GetComponent<MultiplayerController>().TakeDamage2(damage);
         }
     }
-    public void TakeDamage(float _damage)
+    public void TakeDamage(float _damage, Player _owner)
     {
         Debug.Log("Recibe daño");
         life -= _damage;
 
         if (life <= 0)
         {
-            Die();
+            Die(_owner);
         }
     }
 
-    private void Die()
+    private void Die(Player _owner)
     {
         //Desactivar followPlayer
         agent.Stop();
@@ -128,6 +130,19 @@ public class MultiEnemy : MonoBehaviour
         animator.SetTrigger("Death");
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject, 2f);
+
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting == true)
+        {
+            stream.SendNext(life);
+        }
+        else
+        {
+            life = (float)stream.ReceiveNext();
+        }
     }
 }
 
