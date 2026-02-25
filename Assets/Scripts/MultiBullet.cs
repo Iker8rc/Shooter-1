@@ -1,9 +1,11 @@
 using Photon.Pun;
 using UnityEngine;
+using Photon.Realtime;
 
 public class MultiBullet : MonoBehaviourPunCallbacks, IPunObservable
 {
     public float damage;
+    public Player owner;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

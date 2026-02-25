@@ -14,7 +14,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private float attackRange;
     [SerializeField]
-    private float damage;
+    public float damage;
     [SerializeField]
     private float attackCooldown;
     private Transform targetPlayer;  
@@ -46,7 +46,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         targetPlayer = FollowPlayer();
     }
 
-    void Update()
+    public void Update()
     {
         if (Muerto == true)
         {
@@ -55,7 +55,6 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         if (targetPlayer.GetComponent<MultiplayerController>().isDead == true)
         {
             agent.isStopped = true;
-            animator.SetBool("Run", false);
             animator.SetBool("Iddle", true);
             return;
         }
@@ -98,7 +97,6 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         {
             return;      
         }
-
         animator.SetTrigger("Attack"); 
         attackTimer = attackCooldown;
     }
@@ -130,7 +128,18 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         animator.SetTrigger("Death");
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject, 2f);
-
+        
+        if (_owner != null)
+        {
+            foreach (var player in FindObjectsOfType<MultiplayerController>())
+            {
+                if (player.photonView.Owner == _owner) 
+                {
+                    player.totalKills++; 
+                    player.GetComponent<MultiLevelManager>().UpdateKills();
+                }
+            }
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

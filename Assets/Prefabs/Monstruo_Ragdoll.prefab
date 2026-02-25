@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7629646800490749634}
   - component: {fileID: 4920104972880809098}
-  - component: {fileID: 5236746630779300553}
   m_Layer: 0
   m_Name: MOUTH
   m_TagString: Untagged
@@ -54,18 +53,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9590758, y: 0.8244904, z: 0.40336317}
   m_Center: {x: 0.34888503, y: 0.8680214, z: -0.66402113}
---- !u!114 &5236746630779300553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515236735843467716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc815e58e8b657944b4d62abad196d46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MultiEnemyDamage
 --- !u!1001 &5451591293972013383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,16 +130,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 749665342300858703}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1980801610789190240}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5552621011120561756}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1044000563020971054}
+      addedObject: {fileID: 1496491460702645639}
     - targetCorrespondingSourceObject: {fileID: -3585582068520486076, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7068200015414979264}
@@ -736,23 +720,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
   m_PrefabInstance: {fileID: 5451591293972013383}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &749665342300858703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5144967523411516438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72281791715df0843893f8d518b17027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MultiEnemy
-  speed: 3
-  life: 100
-  attackRange: 2
-  damage: 10
-  attackCooldown: 1.2
 --- !u!195 &1980801610789190240
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -802,27 +769,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &1044000563020971054
-BoxCollider:
+--- !u!114 &1496491460702645639
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5144967523411516438}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 6.408554, y: 2.0143626, z: 1}
-  m_Center: {x: 0.047157288, y: 1.0370637, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72281791715df0843893f8d518b17027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiEnemy
+  speed: 3
+  life: 100
+  attackRange: 2
+  damage: 1
+  attackCooldown: 1.2
 --- !u!4 &5485223537993121910 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 556367018499072305, guid: c86764354e2f67a429690b4bb6426edd, type: 3}

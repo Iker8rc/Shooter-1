@@ -19,6 +19,8 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     private int maxPlayers;
     [SerializeField]
     private TMP_InputField inputNickName;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -19,7 +19,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     public GameObject bulletPrefab;
     [SerializeField]
-    private float life;
+    public float life;
     [SerializeField] 
     private float bulletDamage;
     public bool isDead = false;
@@ -30,7 +30,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private float shootCooldown;
     private float timePass;
-
+    
     bool ejemplo;
     private Animator animator;
 
@@ -153,11 +153,12 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 rbBullet.linearVelocity = bulletClone.transform.forward * 10; 
             }
-        
-            MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
+                MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();       
+
             if(bulletScript != null)
             {
                 bulletScript.damage = bulletDamage;
+                bulletScript.owner = photonView.Owner;
             }
         }              
     }
@@ -168,7 +169,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if(collision.gameObject.tag == "Enemy")
             {
-                //collision.gameObject.GetComponent<EnemyController>().TakeDamage(10, photonView.Owner);
+                collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(10, photonView.Owner);
             }
         }
     }
@@ -209,6 +210,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         life -= damage2;
+        FindAnyObjectByType<MultiLevelManager>().UpdateLife();
 
         if (life <= 0)
         {
