@@ -15,7 +15,6 @@ public class HordasController : MonoBehaviour
     private bool spawn = true;
 
     public TextMeshProUGUI timerText;
-    public GameObject winPanel;
 
     void Start()
     {
@@ -68,8 +67,7 @@ public class HordasController : MonoBehaviour
             timerText.text = $"{minutos:00}:{segundos:00}";
             yield return null;
         }
-
-        winPanel.SetActive(true);
         spawn = false;
+        //Win();
     }
 }

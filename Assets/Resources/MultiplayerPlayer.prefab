@@ -136,6 +136,12 @@ MonoBehaviour:
   speed: 10
   bulletSpawnPoint: {fileID: 0}
   bulletPrefab: {fileID: 0}
+  life: 0
+  bulletDamage: 0
+  isDead: 0
+  totalKills: 0
+  bulletSpeed: 0
+  shootCooldown: 0
 --- !u!114 &7348938571419669463
 MonoBehaviour:
   m_ObjectHideFlags: 0

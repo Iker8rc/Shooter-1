@@ -14,16 +14,13 @@ public class MultiBullet : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "Enemy")
         {
             if (photonView.IsMine == true)
             {
-                 collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(damage, photonView.Owner);
-                 //instanciar vfx de sangre
-            }
-            
+                 collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(damage, owner);
+            }            
         }
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

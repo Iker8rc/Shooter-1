@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 4595084427382943930}
   - component: {fileID: 3478547280973252464}
   - component: {fileID: 9167829232418623584}
-  - component: {fileID: 1533420777056333709}
   - component: {fileID: 2978394069304620794}
-  - component: {fileID: 2131426892193305679}
+  - component: {fileID: 1533420777056333709}
   - component: {fileID: -3792485713485398596}
   - component: {fileID: 523343354935661808}
   m_Layer: 0
@@ -117,22 +116,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1533420777056333709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 241588076649926770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!54 &2978394069304620794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -160,7 +143,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2131426892193305679
+--- !u!114 &1533420777056333709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,13 +152,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 241588076649926770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonRigidbodyView
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &-3792485713485398596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +179,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1533420777056333709}
-  - {fileID: 2131426892193305679}
+  - {fileID: 0}
+  - {fileID: 523343354935661808}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

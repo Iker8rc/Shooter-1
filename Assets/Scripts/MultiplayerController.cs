@@ -30,9 +30,13 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private float shootCooldown;
     private float timePass;
+    public bool isPaused = false;
     
     bool ejemplo;
     private Animator animator;
+
+    private float originalSpeed;
+    private bool isSlowed = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -54,6 +58,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        originalSpeed = speed;
         if(photonView.IsMine == true)
         {
             Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
@@ -63,6 +68,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        if (isPaused) 
+        {
+            return;   
+        }
         timePass += Time.deltaTime; 
 
         if(photonView.IsMine == true)
@@ -124,7 +133,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void CopyShoot()
     {
-        GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);        
         Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
         if (rbBullet != null)
         {
@@ -204,7 +213,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void TakeDamage2(float damage2)
     {
-        if (!photonView.IsMine) 
+        if (photonView.IsMine == false) 
         {
             return; 
         }
@@ -222,12 +231,34 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             this.enabled = false;
         }
     }
+
+    public void Slow(float newSpeed, float duration) // Esto es del boss
+    {
+        if (photonView.IsMine == false) 
+        {
+            return;
+        }
+
+        if (isSlowed == false)
+        {
+            StartCoroutine(SlowEffect(newSpeed, duration));
+        }
+    }
+    private System.Collections.IEnumerator SlowEffect(float newSpeed, float duration)
+    {
+        isSlowed = true;
+        speed = newSpeed;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = originalSpeed;
+        isSlowed = false;
+    }
     void VerMuertes()
     {
         for(int i = 0; i <PhotonNetwork.CurrentRoom.PlayerCount; i ++)
         {
             //PhotonNetwork.CurrentRoom.Players[i].CustomProperties.TryGetValue("Muertes", out nombrevariable);
-        }
-        
+        }       
     }
 }

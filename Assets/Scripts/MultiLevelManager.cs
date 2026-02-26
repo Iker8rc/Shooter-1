@@ -10,15 +10,20 @@ public class MultiLevelManager : MonoBehaviour
     private Transform[] spawnPoints;
     [SerializeField]
     private GameObject[] lifeColor;
+    [SerializeField]
+    private GameObject winPanel;
     [SerializeField] 
     private TMPro.TextMeshProUGUI killCount;
+    private MultiLevelManager levelManager;
 
     private MultiplayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PhotonNetwork.Instantiate("MultiplayerPlayer", spawnPoints[0].position, spawnPoints[0].rotation);
+        levelManager = FindObjectOfType<MultiLevelManager>();
+
+        PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
         player = FindObjectOfType<MultiplayerController>();    }
 
     // Update is called once per frame
@@ -43,5 +48,17 @@ public class MultiLevelManager : MonoBehaviour
     public void UpdateKills()
     {
         killCount.text = "x" + player.totalKills.ToString();
+    }
+
+    public void Win()
+    {
+        PhotonView photonV = GetComponent<PhotonView>();
+        photonV.RPC("WinPanel", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_WinPanel()
+    {
+        winPanel.SetActive(true);
     }
 }
