@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject panelGameOver;
@@ -64,6 +65,26 @@ public class MainMenu : MonoBehaviour
                 myPlayer.isPaused = false; 
             }
         }
+    }
+    private void TodosMuertos()
+    {
+        MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
+
+        foreach (var p in players)
+        {
+            if (p.isDead == false) 
+            {
+                return; 
+            }
+        }
+
+        photonView.RPC("RPC_GameOver", RpcTarget.All);
+    }
+    
+    [PunRPC]
+    public void RPC_GameOver()
+    {
+        panelGameOver.SetActive(true);
     }
     public void Exit()
     {

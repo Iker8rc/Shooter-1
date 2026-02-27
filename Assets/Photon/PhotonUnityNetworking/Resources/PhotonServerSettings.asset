@@ -42,6 +42,7 @@ MonoBehaviour:
   - CopyShoot
   - WinPanel
   - RPC_WinPanel
+  - RPC_GameOver
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
