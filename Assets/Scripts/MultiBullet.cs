@@ -16,11 +16,17 @@ public class MultiBullet : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            Debug.Log("TagEnemy");
             if (photonView.IsMine == true)
             {
-                 collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(damage, owner);
-            }            
+                Debug.Log("Entra en Enemy");
+                collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(damage, owner);
+            }
+            else
+            {
+                Debug.Log(photonView.Owner);
+            }
         }
-        PhotonNetwork.Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

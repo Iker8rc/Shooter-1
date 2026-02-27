@@ -412,6 +412,7 @@ MonoBehaviour:
   totalKills: 0
   bulletSpeed: 20
   shootCooldown: 0.2
+  isPaused: 0
 --- !u!114 &4157407053349041023
 MonoBehaviour:
   m_ObjectHideFlags: 0

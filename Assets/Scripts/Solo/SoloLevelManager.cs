@@ -1,10 +1,6 @@
-using Photon.Pun;
 using UnityEngine;
-using TMPro;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
-public class MultiLevelManager : MonoBehaviour
+public class SoloLevelManager : MonoBehaviour
 {
     [SerializeField]
     private Transform[] spawnPoints;
@@ -12,27 +8,27 @@ public class MultiLevelManager : MonoBehaviour
     private GameObject[] lifeColor;
     [SerializeField]
     private GameObject winPanel;
-    [SerializeField] 
+    [SerializeField]
     private TMPro.TextMeshProUGUI killCount;
-    private MultiLevelManager levelManager;
+    private SoloLevelManager levelManager;
 
-    private MultiplayerController player;
+    private SoloPlayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        levelManager = FindObjectOfType<MultiLevelManager>();
-        PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
-        player = FindObjectOfType<MultiplayerController>();    }
+        levelManager = FindObjectOfType<SoloLevelManager>();
+        player = FindObjectOfType<SoloPlayerController>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-      
+
     }
     public void UpdateLife()
     {
-        if (player == null) 
+        if (player == null)
         {
             return;
         }
@@ -43,20 +39,13 @@ public class MultiLevelManager : MonoBehaviour
             lifeColor[i].SetActive(i < currentLife);
         }
     }
-    
+
     public void UpdateKills()
     {
         killCount.text = "x" + player.totalKills.ToString();
     }
 
     public void Win()
-    {
-        PhotonView photonV = GetComponent<PhotonView>();
-        photonV.RPC("WinPanel", RpcTarget.All);
-    }
-
-    [PunRPC]
-    void RPC_WinPanel()
     {
         winPanel.SetActive(true);
     }

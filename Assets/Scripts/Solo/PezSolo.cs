@@ -1,43 +1,44 @@
 using UnityEngine;
 
-public class PezController : MultiEnemy
+public class PezSolo : SoloEnemyController
 {
-    [SerializeField] 
+    [SerializeField]
     private float knockBackForce;
-    [SerializeField] 
+    [SerializeField]
     private float touchCooldown;
     private float touchTimer; //esto es para evitar 
 
     void Update()
     {
         base.Update();
-        
+
         if (touchTimer > 0)
-        touchTimer -= Time.deltaTime;
+            touchTimer -= Time.deltaTime;
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (touchTimer > 0) 
+        if (touchTimer > 0)
         {
-            return; 
+            return;
         }
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            MultiplayerController player = collision.gameObject.GetComponent<MultiplayerController>();
+            SoloPlayerController player = collision.gameObject.GetComponent<SoloPlayerController>();
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
 
-            if (player != null && player.photonView.IsMine)
+            if (player != null)
             {
-                player.TakeDamage2(damage);
+                player.TakeDamage(damage);
 
                 if (rb != null)
                 {
                     Vector3 direction = (collision.transform.position - transform.position).normalized;
+                    direction = new Vector3(direction.x, 0, direction.z);
                     rb.AddForce(direction * knockBackForce);
                 }
             }
-            touchTimer = touchCooldown;  
+            touchTimer = touchCooldown;
         }
     }
 }

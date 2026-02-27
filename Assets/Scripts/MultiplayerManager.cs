@@ -124,6 +124,6 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     public void SoloPlayer()
     {
         panelLoading.SetActive(true);
-        SceneManager.LoadScene("MultiplayerLevel"); 
+        SceneManager.LoadScene("SoloLevel"); 
     }
 }

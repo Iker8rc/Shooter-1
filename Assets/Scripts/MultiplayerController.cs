@@ -110,7 +110,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                 if (timePass>= shootCooldown)
                 {   
                     timePass = 0;
-                    GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                    GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
                     if (rbBullet != null)
                     {
@@ -232,7 +232,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void Slow(float newSpeed, float duration) // Esto es del boss
+    public void Slow(float newSpeed, float duration) // Esto es del bosssss
     {
         if (photonView.IsMine == false) 
         {
