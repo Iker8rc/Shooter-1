@@ -20,12 +20,16 @@ public class SoloEnemyController : MonoBehaviour
     private bool Muerto;
 
     private SoloPlayerController player;
+    private SoloLevelManager levelManager;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         targetPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+
+        player = FindObjectOfType<SoloPlayerController>();
+        levelManager = FindObjectOfType<SoloLevelManager>();
     }
 
     public void Update()
@@ -92,7 +96,7 @@ public class SoloEnemyController : MonoBehaviour
     }
     public void TakeDamage(float _damage)
     {
-        Debug.Log("Recibe daño");
+        Debug.Log("Recibe daï¿½o");
         life -= _damage;
 
         if (life <= 0)
@@ -112,7 +116,7 @@ public class SoloEnemyController : MonoBehaviour
         Destroy(gameObject, 2f);
 
         player.totalKills++;
-        GetComponent<MultiLevelManager>().UpdateKills();
+        levelManager.UpdateKills();
  
     }
 }

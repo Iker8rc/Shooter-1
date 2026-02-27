@@ -66,7 +66,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
             }
         }
     }
-    private void TodosMuertos()
+    public void TodosMuertos()
     {
         MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
 

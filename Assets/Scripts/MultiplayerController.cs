@@ -7,6 +7,7 @@ using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 
+
 public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField]
@@ -25,6 +26,11 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     public bool isDead = false;
     public int totalKills;
 
+    [SerializeField] 
+    private GameObject respawnPanel;
+    [SerializeField] 
+    private TMPro.TextMeshProUGUI respawnText;
+
     [SerializeField]
     private float bulletSpeed;
     [SerializeField]
@@ -34,9 +40,9 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     
     bool ejemplo;
     private Animator animator;
-
     private float originalSpeed;
     private bool isSlowed = false;
+    public MultiLevelManager levelManager;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -58,6 +64,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        
+        levelManager = FindObjectOfType<MultiLevelManager>();
+        levelManager.player = this;
+
         originalSpeed = speed;
         if(photonView.IsMine == true)
         {
@@ -225,14 +235,74 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             animator.SetTrigger("Death");
             isDead = true;
+            MainMenu gameManager = FindAnyObjectByType<MainMenu>();
+            gameManager.TodosMuertos();
+
             rb.linearVelocity = Vector3.zero; 
             rb.isKinematic = true;
             GetComponent<Collider>().enabled = false;
+
+    //////////////////////////////////////////////
+            if (TodosMuertos() == true)
+            {
+                FindAnyObjectByType<MainMenu>().TodosMuertos();
+            }
+            else
+            {
+                StartCoroutine(RespawnCountdown());
+            }
+
             this.enabled = false;
         }
     }
+    ///////////////////////////////////////////
+    private bool TodosMuertos()
+    {
+        MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
 
-    public void Slow(float newSpeed, float duration) // Esto es del bosssss
+        foreach (var player in players)
+        {
+            if (player.isDead == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    private System.Collections.IEnumerator RespawnCountdown()
+    {
+        respawnPanel.SetActive(true);
+
+        int time = 3;
+        while (time > 0)
+        {
+            respawnText.text = "" + time;
+            yield return new WaitForSeconds(1f);
+            time--;
+        }
+
+        respawnPanel.SetActive(false);
+        Revivir();
+    }
+
+    private void Revivir()
+    {
+        life = 5; 
+        isDead = false;
+
+        rb.isKinematic = false;
+        GetComponent<Collider>().enabled = true;
+        this.enabled = true;
+
+        Transform[] spawns = FindAnyObjectByType<MultiLevelManager>().spawnPoints;
+        Transform randomSpawn = spawns[Random.Range(0, spawns.Length)];
+        transform.position = randomSpawn.position;
+
+        levelManager.UpdateLife();
+    }
+    /////////////////////////////////////
+
+    public void Slow(float newSpeed, float duration) // Esto es del boss
     {
         if (photonView.IsMine == false) 
         {

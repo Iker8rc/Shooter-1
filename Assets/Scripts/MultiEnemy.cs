@@ -17,6 +17,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     public float damage;
     [SerializeField]
     private float attackCooldown;
+
     private Transform targetPlayer;  
     private float attackTimer;
     private bool Muerto;
@@ -122,11 +123,11 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     private void Die(Player _owner)
     {
         //Desactivar followPlayer
-        agent.Stop();
         agent.isStopped = true;
         Muerto = true;
         animator.SetTrigger("Death");
         GetComponent<Collider>().enabled = false;
+        
         Destroy(gameObject, 2f);
         
         if (_owner != null)
@@ -136,7 +137,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
                 if (player.photonView.Owner == _owner) 
                 {
                     player.totalKills++; 
-                    player.GetComponent<MultiLevelManager>().UpdateKills();
+                    player.GetComponent<MultiplayerController>().levelManager.UpdateKills();
                 }
             }
         }

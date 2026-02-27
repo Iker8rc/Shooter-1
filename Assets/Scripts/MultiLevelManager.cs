@@ -3,11 +3,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
+using System.Collections;
 
 public class MultiLevelManager : MonoBehaviour
 {
     [SerializeField]
-    private Transform[] spawnPoints;
+    public Transform[] spawnPoints;
     [SerializeField]
     private GameObject[] lifeColor;
     [SerializeField]
@@ -16,20 +18,66 @@ public class MultiLevelManager : MonoBehaviour
     private TMPro.TextMeshProUGUI killCount;
     private MultiLevelManager levelManager;
 
-    private MultiplayerController player;
+    public GameObject heartPrefab;
+    public Transform[] heartSpawnPoints;
+    private List<GameObject> currentHearts = new List<GameObject>();
+
+    [SerializeField] 
+    private float heartSpawnInterval = 90f; 
+    [SerializeField] 
+    private int hearts = 3;
+
+    public MultiplayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         levelManager = FindObjectOfType<MultiLevelManager>();
         PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
-        player = FindObjectOfType<MultiplayerController>();    }
+        player = FindObjectOfType<MultiplayerController>();  
+
+        StartCoroutine(HeartSpawnea());    
+    }
 
     // Update is called once per frame
     void Update()
     {
       
     }
+
+    private IEnumerator HeartSpawnea()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(heartSpawnInterval);
+            SpawnHearts();
+            DestroyHearts();
+        }
+    }
+    private void DestroyHearts()
+    {
+        foreach (GameObject heart in currentHearts)
+        {
+            if (heart != null)
+            {
+                Destroy(heart);
+            }          
+        }
+
+        currentHearts.Clear();
+    }
+
+    private void SpawnHearts()
+    {
+        for (int i = 0; i < hearts; i++)
+        {
+            Transform randomPoint = heartSpawnPoints[Random.Range(0, heartSpawnPoints.Length)];
+
+            GameObject newHeart = Instantiate(heartPrefab, randomPoint.position, randomPoint.rotation);
+            currentHearts.Add(newHeart);
+        }
+    }
+    
     public void UpdateLife()
     {
         if (player == null) 
@@ -52,8 +100,7 @@ public class MultiLevelManager : MonoBehaviour
     public void Win()
     {
         PhotonView photonV = GetComponent<PhotonView>();
-        photonV.RPC("WinPanel", RpcTarget.All);
-    }
+        photonV.RPC("RPC_WinPanel", RpcTarget.All);    }
 
     [PunRPC]
     void RPC_WinPanel()
