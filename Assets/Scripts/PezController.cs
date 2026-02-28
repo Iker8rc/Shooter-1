@@ -34,6 +34,7 @@ public class PezController : MultiEnemy
                 if (rb != null)
                 {
                     Vector3 direction = (collision.transform.position - transform.position).normalized;
+                    direction = new Vector3(direction.x, 0, direction.z);
                     rb.AddForce(direction * knockBackForce);
                 }
             }

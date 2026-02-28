@@ -50,8 +50,8 @@ public class MultiLevelManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(heartSpawnInterval);
-            SpawnHearts();
             DestroyHearts();
+            SpawnHearts();
         }
     }
     private void DestroyHearts()
@@ -60,7 +60,7 @@ public class MultiLevelManager : MonoBehaviour
         {
             if (heart != null)
             {
-                Destroy(heart);
+                PhotonNetwork.Destroy(heart);
             }          
         }
 
@@ -73,7 +73,7 @@ public class MultiLevelManager : MonoBehaviour
         {
             Transform randomPoint = heartSpawnPoints[Random.Range(0, heartSpawnPoints.Length)];
 
-            GameObject newHeart = Instantiate(heartPrefab, randomPoint.position, randomPoint.rotation);
+            GameObject newHeart = PhotonNetwork.Instantiate("Heart", randomPoint.position, randomPoint.rotation); 
             currentHearts.Add(newHeart);
         }
     }

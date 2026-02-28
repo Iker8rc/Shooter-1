@@ -407,13 +407,14 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 8446210568217559440}
   bulletPrefab: {fileID: 241588076649926770, guid: b705024b3e85ceb44a244321f27f683b, type: 3}
   life: 5
+  maxLife: 5
   bulletDamage: 50
   isDead: 0
   totalKills: 0
   respawnPanel: {fileID: 0}
   respawnText: {fileID: 0}
   bulletSpeed: 20
-  shootCooldown: 0.2
+  shootCooldown: 0.3
   isPaused: 0
   levelManager: {fileID: 0}
 --- !u!114 &4157407053349041023

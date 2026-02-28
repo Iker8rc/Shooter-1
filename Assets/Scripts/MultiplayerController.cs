@@ -21,6 +21,8 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject bulletPrefab;
     [SerializeField]
     public float life;
+    [SerializeField]
+    public float maxLife;
     [SerializeField] 
     private float bulletDamage;
     public bool isDead = false;

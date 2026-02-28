@@ -15,6 +15,8 @@ public class SoloPlayerController : MonoBehaviour
     [SerializeField]
     public float life;
     [SerializeField]
+    public float maxLife;
+    [SerializeField]
     private float bulletDamage;
     public bool isDead = false;
     public int totalKills;

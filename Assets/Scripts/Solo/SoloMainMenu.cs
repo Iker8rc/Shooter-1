@@ -30,6 +30,8 @@ public class SoloMainMenu : MonoBehaviour
 
     public void MainMenuButton()
     {
+        Destroy(FindObjectOfType<SoloLevelManager>().gameObject);
+        Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
         //AudioManager.Instance.SetMusicVolume(0.6f);
         SceneManager.LoadScene(0);
     }

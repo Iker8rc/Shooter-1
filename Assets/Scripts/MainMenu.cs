@@ -32,6 +32,12 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     public void MainMenuButton()
     {
+        Destroy(FindObjectOfType<MultiLevelManager>().gameObject);
+        Destroy(FindObjectOfType<MultiplayerController>().gameObject);
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
         //AudioManager.Instance.SetMusicVolume(0.6f);
         SceneManager.LoadScene(0);
     }

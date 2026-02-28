@@ -15,8 +15,11 @@ public class MultiHeart : MonoBehaviour
         {
             return;
         }
-        player.life +=1;
-        FindObjectOfType<MultiLevelManager>().UpdateLife();
-        PhotonNetwork.Destroy(gameObject);
+        if (player.life < player.maxLife) 
+        {
+            player.life +=1;
+            FindObjectOfType<MultiLevelManager>().UpdateLife();
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

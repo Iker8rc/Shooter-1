@@ -10,8 +10,15 @@ public class Heart : MonoBehaviour
         {
             return;
         }
-        player.life +=1;
-        FindObjectOfType<SoloLevelManager>().UpdateLife();
-        Destroy(gameObject);
+        if (player.life < player.maxLife)
+        {
+            player.life += 1;
+            FindObjectOfType<SoloLevelManager>().UpdateLife();
+            Destroy(gameObject);
+        }
+        else
+        {
+            
+        }
     }
 }
