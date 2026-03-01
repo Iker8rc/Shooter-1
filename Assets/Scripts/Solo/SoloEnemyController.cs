@@ -22,6 +22,12 @@ public class SoloEnemyController : MonoBehaviour
     private SoloPlayerController player;
     private SoloLevelManager levelManager;
 
+    //Audio
+    [SerializeField]
+    private AudioClip roar;
+    [SerializeField]
+    private AudioClip death;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -61,6 +67,7 @@ public class SoloEnemyController : MonoBehaviour
 
         if (distance <= attackRange)
         {
+            
             agent.isStopped = true;
             Attack();
         }
@@ -83,6 +90,7 @@ public class SoloEnemyController : MonoBehaviour
         {
             return;
         }
+        AudioManager.instance.PlaySFX(roar, transform.position);
         animator.SetTrigger("Attack");
         attackTimer = attackCooldown;
     }
@@ -107,7 +115,7 @@ public class SoloEnemyController : MonoBehaviour
 
     private void Die()
     {
-        //Desactivar followPlayer
+        AudioManager.instance.PlaySFX(death, transform.position);
         agent.Stop();
         agent.isStopped = true;
         Muerto = true;

@@ -92,10 +92,10 @@ public class GameSettings : MonoBehaviour
     {
         //Music volume
         dataSettings.musicVolume = musicSlider.value;
-        Audiomanager.instance.SetMusicVolume(dataSettings.musicVolume);
+        AudioManager.instance.SetMusicVolume(dataSettings.musicVolume);
         //ambient volume
         dataSettings.ambientVolume = ambientSlider.value;
-        Audiomanager.instance.SetSFXVolume(dataSettings.ambientVolume);
+        AudioManager.instance.SetSFXVolume(dataSettings.ambientVolume);
         //toggle fullscreen
         dataSettings.fullscreen = fullscreenToggle.isOn;
         Screen.fullScreen = dataSettings.fullscreen;

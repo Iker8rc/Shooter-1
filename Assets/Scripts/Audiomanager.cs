@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Audiomanager : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public static Audiomanager instance;
+    public static AudioManager instance;
     private AudioSource musicSource;
     private AudioSource ambientSource;
     [SerializeField]
@@ -18,12 +18,11 @@ public class Audiomanager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
         musicSource = gameObject.AddComponent<AudioSource>();
         ambientSource = gameObject.AddComponent<AudioSource>();
+
+        musicVolume = 0.6f;  
+        sfxVolume = 1f;
     }
     public void PlayMusic(AudioClip _music)
     {

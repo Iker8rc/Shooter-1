@@ -49,11 +49,15 @@ public class SoloMainMenu : MonoBehaviour
 
         if (panelPause.activeInHierarchy == false)
         {
+            AudioManager.instance.SetMusicVolume(1.5f);
             panelPause.SetActive(true);
+            Time.timeScale = 0;
         }
         else
         {
+            AudioManager.instance.SetMusicVolume(0.6f);
             panelPause.SetActive(false);
+            Time.timeScale = 1;
         }
     }
 

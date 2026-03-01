@@ -34,6 +34,13 @@ public class SoloPlayerController : MonoBehaviour
     private float originalSpeed;
     private bool isSlowed = false;
 
+    //Audio
+   
+    [SerializeField]
+    private AudioClip shoot;
+    [SerializeField]
+    private AudioClip muerte;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -80,6 +87,7 @@ public class SoloPlayerController : MonoBehaviour
                 if (timePass >= shootCooldown)
                 {
                     timePass = 0;
+                    AudioManager.instance.PlaySFX(shoot, transform.position);
                     GameObject bulletClone = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
                     if (rbBullet != null)
@@ -106,6 +114,7 @@ public class SoloPlayerController : MonoBehaviour
 
         if (life <= 0)
         {
+            AudioManager.instance.PlaySFX(muerte, transform.position);
             animator.SetTrigger("Death");
             isDead = true;
             rb.linearVelocity = Vector3.zero;

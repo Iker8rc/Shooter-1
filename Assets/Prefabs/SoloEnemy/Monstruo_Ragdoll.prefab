@@ -697,6 +697,8 @@ MonoBehaviour:
   attackRange: 2
   damage: 1
   attackCooldown: 1.2
+  roar: {fileID: 8300000, guid: 7378aa313bccc13499796bd9254df21d, type: 3}
+  death: {fileID: 8300000, guid: c00fc587dc3b4a94eb33012b664079b4, type: 3}
 --- !u!136 &4430540227269956053
 CapsuleCollider:
   m_ObjectHideFlags: 0
