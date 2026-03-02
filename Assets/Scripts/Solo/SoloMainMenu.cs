@@ -32,8 +32,6 @@ public class SoloMainMenu : MonoBehaviour
 
     public void MainMenuButton()
     {
-        Destroy(FindObjectOfType<SoloLevelManager>().gameObject);
-        Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
         SceneManager.LoadScene(0);
     }
     public void GameOver()

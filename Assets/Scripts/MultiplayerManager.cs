@@ -19,6 +19,8 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     private int maxPlayers;
     [SerializeField]
     private TMP_InputField inputNickName;
+    [SerializeField]
+    private bool conectado = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,23 +28,28 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-
+    private void Update()
+    {
+        Debug.Log(PhotonNetwork.NetworkClientState);
+    }
     public void MultiplayerButton()
     {
         panelLoading.SetActive(true);
         PhotonNetwork.NickName = inputNickName.text;
         PhotonNetwork.ConnectUsingSettings(); //Para conectarnos al server de photon
+        conectado = false;
     }
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinRandomRoom(); //Para unirnos a una sala random 
-
-        //PhotonNetwork.JoinRoom("nombre room");
-    }
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        
+        Debug.Log("Connected");
+        if (conectado == false)
+        {
+            PhotonNetwork.JoinRandomRoom(); //Para unirnos a una sala random 
+            Debug.Log("Estoy ejecutando el master");
+            conectado = true;   
+            //PhotonNetwork.JoinRoom("nombre room");
+        } 
     }
     public override void OnJoinRandomFailed(short returnCode, string message) //Cuando da fallo al unirnos a una sala random
     {
@@ -110,11 +117,20 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("MultiplayerLevel");
     }
     public void MaxPlayers(int _maxPlayers)
-    {
+    {   
+        if (PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Ya conectado");
+            conectado = false;
+            OnConnectedToMaster();
+        }
         maxPlayers = _maxPlayers;
         panelLoading.SetActive(true);
         PhotonNetwork.NickName = inputNickName.text;
         PhotonNetwork.ConnectUsingSettings();
+        
+        Debug.Log("Llego aquí");
+        conectado = false;      
     }
     public void Multiplayer()
     {

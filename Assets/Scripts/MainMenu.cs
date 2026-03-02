@@ -29,17 +29,17 @@ public class MainMenu : MonoBehaviourPunCallbacks
             Pause();
         }
     }
-
     public void MainMenuButton()
     {
-        Destroy(FindObjectOfType<MultiLevelManager>().gameObject);
-        Destroy(FindObjectOfType<MultiplayerController>().gameObject);
         if (PhotonNetwork.InRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
-        //AudioManager.Instance.SetMusicVolume(0.6f);
+    }
+    public override void OnLeftRoom()
+    {
         SceneManager.LoadScene(0);
+
     }
     public void GameOver()
     {
