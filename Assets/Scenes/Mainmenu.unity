@@ -7324,7 +7324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75455aaca17f3ca438a5969250644bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Audiomanager
-  SFXPrefab: {fileID: 0}
+  SFXPrefab: {fileID: 4698760509677518076, guid: d07d6cee37b14ad48aecabdb93e945d3, type: 3}
 --- !u!4 &1442532223
 Transform:
   m_ObjectHideFlags: 0

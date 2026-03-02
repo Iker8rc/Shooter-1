@@ -41390,6 +41390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoloMainMenu
   panelGameOver: {fileID: 381163460}
   panelPause: {fileID: 63780215}
+  musicSource: {fileID: 475632972}
 --- !u!1001 &1124489886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73462,6 +73463,8 @@ MonoBehaviour:
   - {fileID: 1747557321}
   heartSpawnInterval: 90
   hearts: 3
+  winMusic: {fileID: 8300000, guid: 0c8df36dcfeb64e4783904e963ac54c8, type: 3}
+  musicSource: {fileID: 475632972}
 --- !u!1001 &1854741871
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,8 @@ public class SoloMainMenu : MonoBehaviour
     [SerializeField]
     private GameObject panelPause;
     private SoloPlayerController myPlayer;
+    [SerializeField] 
+    private AudioSource musicSource;
 
     private void Awake()
     {
@@ -32,12 +34,11 @@ public class SoloMainMenu : MonoBehaviour
     {
         Destroy(FindObjectOfType<SoloLevelManager>().gameObject);
         Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
-        //AudioManager.Instance.SetMusicVolume(0.6f);
         SceneManager.LoadScene(0);
     }
     public void GameOver()
     {
-        //AudioManager.Instance.FadeOutMusic(1.5f);
+        musicSource.volume = 0.1f;
         panelGameOver.SetActive(true);
     }
     public void Pause()
@@ -49,13 +50,13 @@ public class SoloMainMenu : MonoBehaviour
 
         if (panelPause.activeInHierarchy == false)
         {
-            AudioManager.instance.SetMusicVolume(1.5f);
+            musicSource.volume = 0.1f;
             panelPause.SetActive(true);
             Time.timeScale = 0;
         }
         else
         {
-            AudioManager.instance.SetMusicVolume(0.6f);
+            musicSource.volume = 0.6f;
             panelPause.SetActive(false);
             Time.timeScale = 1;
         }

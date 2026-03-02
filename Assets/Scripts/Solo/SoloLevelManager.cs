@@ -24,6 +24,12 @@ public class SoloLevelManager : MonoBehaviour
     [SerializeField] 
     private int hearts = 3;
 
+    //Audio
+    [SerializeField] 
+    private AudioClip winMusic; 
+    [SerializeField] 
+    private AudioSource musicSource;  
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -89,6 +95,9 @@ public class SoloLevelManager : MonoBehaviour
 
     public void Win()
     {
+        musicSource.Stop();
+        musicSource.clip = winMusic;
+        musicSource.Play();
         winPanel.SetActive(true);
     }
 }
