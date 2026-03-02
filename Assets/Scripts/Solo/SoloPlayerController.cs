@@ -35,11 +35,12 @@ public class SoloPlayerController : MonoBehaviour
     private bool isSlowed = false;
 
     //Audio
-   
     [SerializeField]
     private AudioClip shoot;
     [SerializeField]
     private AudioClip muerte;
+    [SerializeField]
+    private AudioClip walk;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,6 +71,7 @@ public class SoloPlayerController : MonoBehaviour
         bool run = leftStickInput.magnitude > 0.1f;
         animator.SetBool("Run", run);
         
+        
         //mirar
         float y = Camera.main.GetComponent<CamMultiplayerController>().camOffset.y;
         Vector2 mousePos = playerInput.actions["LookCenital"].ReadValue<Vector2>();
@@ -84,6 +86,10 @@ public class SoloPlayerController : MonoBehaviour
     {
             if (context.performed == true)
             {
+                if (life <= 0) 
+                {
+                    return;
+                }
                 if (timePass >= shootCooldown)
                 {
                     timePass = 0;

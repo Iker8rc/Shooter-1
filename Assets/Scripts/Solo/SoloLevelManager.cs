@@ -20,7 +20,7 @@ public class SoloLevelManager : MonoBehaviour
     private List<GameObject> currentHearts = new List<GameObject>();
 
     [SerializeField] 
-    private float heartSpawnInterval = 90f; 
+    private float heartSpawn = 90f; 
     [SerializeField] 
     private int hearts = 3;
 
@@ -60,7 +60,7 @@ public class SoloLevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(heartSpawnInterval);
+            yield return new WaitForSeconds(heartSpawn);
             DestroyHearts();
             SpawnHearts();
         }

@@ -15,6 +15,8 @@ public class GameSettings : MonoBehaviour
     [SerializeField]
     private Slider musicSlider, ambientSlider;
     private DataSettings dataSettings;
+    [SerializeField]
+    private GameObject gameSettings;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -128,7 +130,11 @@ public class GameSettings : MonoBehaviour
     }
     public void BackButton()
     {
-
+        gameSettings.SetActive(false);
+    }
+    public void Options()
+    {
+        gameSettings.SetActive(true);
     }
 }
 

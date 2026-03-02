@@ -1,12 +1,15 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
 using System.Collections;
+using ExitGames.Client.Photon;
 
-public class MultiLevelManager : MonoBehaviour
+
+public class MultiLevelManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     public Transform[] spawnPoints;
@@ -91,16 +94,25 @@ public class MultiLevelManager : MonoBehaviour
             lifeColor[i].SetActive(i < currentLife);
         }
     }
-    
-    public void UpdateKills()
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)    
     {
-        killCount.text = "x" + player.totalKills.ToString();
+        if (propertiesThatChanged.ContainsKey("Kills"))
+        {
+            int kills = (int)propertiesThatChanged["Kills"];
+            UpdateKills(kills);
+        }
+    }
+    public void UpdateKills(int kills)
+    {
+        killCount.text = "x" + kills;
     }
 
     public void Win()
     {
         PhotonView photonV = GetComponent<PhotonView>();
-        photonV.RPC("RPC_WinPanel", RpcTarget.All);    }
+        photonV.RPC("RPC_WinPanel", RpcTarget.All);    
+    }
 
     [PunRPC]
     void RPC_WinPanel()

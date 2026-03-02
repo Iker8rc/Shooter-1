@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using ExitGames.Client.Photon;
 
 public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -21,6 +22,14 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     private Transform targetPlayer;  
     private float attackTimer;
     private bool Muerto;
+
+    private MultiLevelManager levelManager;
+
+    //Audio
+    [SerializeField]
+    private AudioClip roar;
+    [SerializeField]
+    private AudioClip death;
 
     private Transform FollowPlayer()
     {
@@ -45,6 +54,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         animator = GetComponent<Animator>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         targetPlayer = FollowPlayer();
+        levelManager = FindObjectOfType<MultiLevelManager>();
     }
 
     public void Update()
@@ -136,11 +146,25 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (player.photonView.Owner == _owner) 
                 {
-                    player.totalKills++; 
-                    player.GetComponent<MultiplayerController>().levelManager.UpdateKills();
+                    Debug.Log("JugadorLoMata");
+                    UpdateGlobalKills();
                 }
             }
         }
+    }
+    private void UpdateGlobalKills()
+    {
+        int kills = 0;
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Kills"))
+        kills = (int)PhotonNetwork.CurrentRoom.CustomProperties["Kills"];
+
+        kills++;
+
+        Hashtable hash = new Hashtable();
+        hash["Kills"] = kills;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+        Debug.Log("KILLS GLOBALES = " + kills);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

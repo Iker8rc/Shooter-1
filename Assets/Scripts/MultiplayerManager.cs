@@ -28,10 +28,6 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-    private void Update()
-    {
-        Debug.Log(PhotonNetwork.NetworkClientState);
-    }
     public void MultiplayerButton()
     {
         panelLoading.SetActive(true);
@@ -129,7 +125,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = inputNickName.text;
         PhotonNetwork.ConnectUsingSettings();
         
-        Debug.Log("Llego aquí");
+        Debug.Log("Llego aquï¿½");
         conectado = false;      
     }
     public void Multiplayer()

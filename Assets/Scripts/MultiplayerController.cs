@@ -46,6 +46,14 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     private bool isSlowed = false;
     public MultiLevelManager levelManager;
 
+    //Audio
+    [SerializeField]
+    private AudioClip shoot;
+    [SerializeField]
+    private AudioClip muerte;
+    [SerializeField]
+    private AudioClip walk;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting == true)
@@ -119,8 +127,13 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if(context.performed == true)
             {
+                if (life <= 0) 
+                {
+                    return;
+                }
                 if (timePass>= shootCooldown)
                 {   
+                    AudioManager.instance.PlaySFX(shoot, transform.position);
                     timePass = 0;
                     GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
@@ -235,6 +248,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (life <= 0)
         {
+            AudioManager.instance.PlaySFX(muerte, transform.position);
             animator.SetTrigger("Death");
             isDead = true;
             MainMenu gameManager = FindAnyObjectByType<MainMenu>();
