@@ -95,17 +95,9 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)    
+    public void UpdateKills()
     {
-        if (propertiesThatChanged.ContainsKey("Kills"))
-        {
-            int kills = (int)propertiesThatChanged["Kills"];
-            UpdateKills(kills);
-        }
-    }
-    public void UpdateKills(int kills)
-    {
-        killCount.text = "x" + kills;
+        //Subir las muertes
     }
 
     public void Win()

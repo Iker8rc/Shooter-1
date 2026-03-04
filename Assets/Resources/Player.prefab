@@ -417,6 +417,9 @@ MonoBehaviour:
   shootCooldown: 0.3
   isPaused: 0
   levelManager: {fileID: 0}
+  shoot: {fileID: 0}
+  muerte: {fileID: 0}
+  walk: {fileID: 0}
 --- !u!114 &4157407053349041023
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -147,24 +147,10 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
                 if (player.photonView.Owner == _owner) 
                 {
                     Debug.Log("JugadorLoMata");
-                    UpdateGlobalKills();
+                    player.GlobalKills();
                 }
             }
         }
-    }
-    private void UpdateGlobalKills()
-    {
-        int kills = 0;
-
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Kills"))
-        kills = (int)PhotonNetwork.CurrentRoom.CustomProperties["Kills"];
-
-        kills++;
-
-        Hashtable hash = new Hashtable();
-        hash["Kills"] = kills;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-        Debug.Log("KILLS GLOBALES = " + kills);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

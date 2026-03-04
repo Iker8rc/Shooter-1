@@ -1,9 +1,7 @@
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 
@@ -79,6 +77,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         levelManager.player = this;
 
         originalSpeed = speed;
+        
+    }
+    void Awake()
+    {
         if(photonView.IsMine == true)
         {
             Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
@@ -133,7 +135,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 if (timePass>= shootCooldown)
                 {   
-                    AudioManager.instance.PlaySFX(shoot, transform.position);
+                    //AudioManager.instance.PlaySFX(shoot, transform.position);
                     timePass = 0;
                     GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
@@ -147,8 +149,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                     if (bulletScript != null)
                     {
                         bulletScript.damage = bulletDamage;
+                        Debug.Log("BalaDisparao");
+                        bulletScript.owner = photonView.Owner;
                     }
-                    photonView.RPC("CopyShoot", RpcTarget.Others);
+                    //photonView.RPC("CopyShoot", RpcTarget.Others);
                 }
             }
                  
@@ -238,9 +242,9 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void TakeDamage2(float damage2)
     {
-        if (photonView.IsMine == false) 
+        if (photonView.IsMine == false)
         {
-            return; 
+            return;
         }
 
         life -= damage2;
@@ -248,17 +252,36 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (life <= 0)
         {
-            AudioManager.instance.PlaySFX(muerte, transform.position);
+            //AudioManager.instance.PlaySFX(muerte, transform.position);
             animator.SetTrigger("Death");
             isDead = true;
             MainMenu gameManager = FindAnyObjectByType<MainMenu>();
-            gameManager.TodosMuertos();
+            //gameManager.TodosMuertos();
 
-            rb.linearVelocity = Vector3.zero; 
+            rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
             GetComponent<Collider>().enabled = false;
+        }
+    }
+    public void GlobalKills()
+    {
+        totalKills += 1;
+        Hashtable kills = new Hashtable
+        {
+            {"Kills", totalKills }
+        };
 
-    //////////////////////////////////////////////
+        PhotonNetwork.LocalPlayer.SetCustomProperties(kills);
+    }
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("Kills") == true)
+        {
+            //Panel final
+        }
+    }
+
+    /*
             if (TodosMuertos() == true)
             {
                 FindAnyObjectByType<MainMenu>().TodosMuertos();
@@ -271,7 +294,6 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             this.enabled = false;
         }
     }
-    ///////////////////////////////////////////
     private bool TodosMuertos()
     {
         MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
@@ -316,7 +338,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         levelManager.UpdateLife();
     }
-    /////////////////////////////////////
+    */
 
     public void Slow(float newSpeed, float duration) // Esto es del boss
     {
@@ -327,6 +349,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (isSlowed == false)
         {
+
             StartCoroutine(SlowEffect(newSpeed, duration));
         }
     }
