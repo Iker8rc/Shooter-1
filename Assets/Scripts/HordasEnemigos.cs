@@ -5,7 +5,8 @@ using TMPro;
 public class HordasEnemigos : MonoBehaviour
 {
     [Header("Prefabs enemigos")]
-    public GameObject[] enemigosPrefabs = new GameObject[3];
+    public GameObject[] enemigosPrefabs = new GameObject[2];
+    public GameObject bossPrefab;
 
     [Header("Spawns")]
     public Transform[] spawnPoints;
@@ -55,13 +56,22 @@ public class HordasEnemigos : MonoBehaviour
 
     void GenerarHorda()
     {
-        Debug.Log("Nueva horda creada");
-        for (int i = 0; i < enemigosPorHorda; i++)
+        Debug.Log("Nueva horda lol" + (hordasGeneradas + 1));
+
+        int enemigosEstaHorda = enemigosPorHorda + hordasGeneradas;
+        bool Boss = hordasGeneradas >= 3; 
+
+        for (int i = 0; i < enemigosEstaHorda; i++)
         {
             Transform punto = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject prefabAleatorio = enemigosPrefabs[Random.Range(0, enemigosPrefabs.Length)];
-
             Instantiate(prefabAleatorio, punto.position, punto.rotation);
+        }
+
+        if (Boss && bossPrefab != null)
+        {
+            Transform spawnBoss = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Instantiate(bossPrefab, spawnBoss.position, spawnBoss.rotation);
         }
     }
 

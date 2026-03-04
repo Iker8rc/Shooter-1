@@ -14,11 +14,11 @@ public class BossSolo : SoloEnemyController
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            MultiplayerController player = collision.gameObject.GetComponent<MultiplayerController>();
+            SoloPlayerController player = collision.gameObject.GetComponent<SoloPlayerController>();
 
             if (player != null)
             {
-                player.TakeDamage2(damage);
+                player.TakeDamage(damage);
                 player.Slow(slowSpeed, slowDuration);
             }
         }
