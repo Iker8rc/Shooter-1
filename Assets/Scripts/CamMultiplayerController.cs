@@ -14,6 +14,10 @@ public class CamMultiplayerController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (player == null)
+        {
+            return;
+        }
         transform.position = player.position+camOffset;
     }
     public void SetPlayer(Transform _player)

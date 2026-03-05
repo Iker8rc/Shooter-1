@@ -97,9 +97,8 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
 
     public void UpdateKills()
     {
-        //Subir las muertes
+        killCount.text = "x" + player.totalKills.ToString();
     }
-
     public void Win()
     {
         PhotonView photonV = GetComponent<PhotonView>();

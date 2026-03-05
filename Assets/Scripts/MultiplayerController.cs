@@ -272,6 +272,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         };
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(kills);
+        FindAnyObjectByType<MultiLevelManager>().UpdateKills();
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {

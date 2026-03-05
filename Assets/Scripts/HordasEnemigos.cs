@@ -14,11 +14,13 @@ public class HordasEnemigos : MonoBehaviour
     [Header("Hordas")]
     public float duracionTotal = 600f;  
     public float tiempoEntreHordas = 120f;
+    
     public int enemigosPorHorda = 5;  
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
 
+    public LevelManager levelManager;
     private float tiempoPasado = 0f;
     private int hordasGeneradas = 0;
     private bool spawnActivo = true;
