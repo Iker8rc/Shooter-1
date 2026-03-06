@@ -9,6 +9,7 @@ public class SoloBullet : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<SoloEnemyController>().TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 }

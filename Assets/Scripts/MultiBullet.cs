@@ -21,6 +21,7 @@ public class MultiBullet : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Debug.Log("Entra en Enemy");
                 collision.gameObject.GetComponent<MultiEnemy>().TakeDamage(damage, owner);
+                PhotonNetwork.Destroy(gameObject);
             }
             else
             {

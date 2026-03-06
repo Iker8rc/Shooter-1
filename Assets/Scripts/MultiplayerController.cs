@@ -78,13 +78,14 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         originalSpeed = speed;
         
-    }
-    void Awake()
-    {
         if(photonView.IsMine == true)
         {
             Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
         }
+    }
+    void Awake()
+    {
+        
     }
 
     // Update is called once per frame
@@ -103,17 +104,17 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             Vector3 derecha = Vector3.forward + Vector3.right;
             Vector3 movement = ((Vector3.right * leftStickInput.y) + (Vector3.back * leftStickInput.x)) * speed;
             rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
-
+            //mirar
+            float y = Camera.main.GetComponent <CamMultiplayerController>().camOffset.y;
+            Vector2 mousePos = playerInput.actions["LookCenital"].ReadValue<Vector2>();
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, y));
+            Vector3 playerRot = transform.eulerAngles; 
+            transform.LookAt(worldPos);
+            transform.eulerAngles = new Vector3(playerRot.x, transform.eulerAngles.y, playerRot.z);
             bool run = leftStickInput.magnitude > 0.1f;
+            
             animator.SetBool("Run", run);
-        }
-        //mirar
-        float y = Camera.main.GetComponent <CamMultiplayerController>().camOffset.y;
-        Vector2 mousePos = playerInput.actions["LookCenital"].ReadValue<Vector2>();
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, y));
-        Vector3 playerRot = transform.eulerAngles; 
-        transform.LookAt(worldPos);
-        transform.eulerAngles = new Vector3(playerRot.x, transform.eulerAngles.y, playerRot.z);
+        }     
 
     }
 
@@ -211,8 +212,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
+    
     //En el script del enemigo //
-    public void TakeDamage(float _damage, Player player)
+    
+    /*public void TakeDamage(float _damage, Player player)
     {
         life -= _damage;
         if (life <= 0)
@@ -239,7 +242,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             animator.SetTrigger("Death");
         }  
-    }
+    } */
     public void TakeDamage2(float damage2)
     {
         if (photonView.IsMine == false)
