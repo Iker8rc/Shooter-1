@@ -12,18 +12,21 @@ public class AudioManager : MonoBehaviour
 
 
     private void Awake()
+{
+    if (instance == null)
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        musicSource = gameObject.AddComponent<AudioSource>();
-        ambientSource = gameObject.AddComponent<AudioSource>();
-
-        musicVolume = 0.6f;  
-        sfxVolume = 1f;
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+    else
+    {
+        Destroy(gameObject);
+        return;
+    }
+
+    musicSource = gameObject.AddComponent<AudioSource>();
+    ambientSource = gameObject.AddComponent<AudioSource>();
+}
     public void PlayMusic(AudioClip _music)
     {
         musicSource.clip = _music;
