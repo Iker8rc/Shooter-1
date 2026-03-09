@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using UnityEngine;
 
 public class PezController : MultiEnemy
@@ -42,3 +43,4 @@ public class PezController : MultiEnemy
         }
     }
 }
+

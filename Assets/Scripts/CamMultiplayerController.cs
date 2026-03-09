@@ -19,11 +19,11 @@ public class CamMultiplayerController : MonoBehaviour
         
         if (player == null)
         {
-            debugText.text = "Player Null";
+            //debugText.text = "Player Null";
             return;
         }
         transform.position = player.position+camOffset;
-        debugText.text = transform.position.ToString();
+        //debugText.text = transform.position.ToString();
     }
     public void SetPlayer(Transform _player)
     {

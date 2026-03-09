@@ -21,6 +21,8 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     private TMP_InputField inputNickName;
     [SerializeField]
     private bool conectado = true;
+    [SerializeField]
+    private GameObject muñeco;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -81,7 +83,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             {"Ready", true }
         };
-
+        muñeco.SetActive(true);
         PhotonNetwork.LocalPlayer.SetCustomProperties(ready);
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -130,11 +132,13 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     }
     public void Multiplayer()
     {
+        muñeco.SetActive(false);
         //Elegir num de jugadores 
         panelMulti.SetActive(true);
     }
     public void SoloPlayer()
     {
+        muñeco.SetActive(false);
         panelLoading.SetActive(true);
         SceneManager.LoadScene("SoloLevel"); 
     }

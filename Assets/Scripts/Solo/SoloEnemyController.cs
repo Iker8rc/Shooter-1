@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SoloEnemyController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class SoloEnemyController : MonoBehaviour
     private Transform targetPlayer;
     private float attackTimer;
     private bool Muerto;
+    [SerializeField]
+    private bool pez;
 
     private SoloPlayerController player;
     private SoloLevelManager levelManager;
@@ -120,6 +123,11 @@ public class SoloEnemyController : MonoBehaviour
         agent.isStopped = true;
         Muerto = true;
         animator.SetTrigger("Death");
+        if (pez == true)
+        {
+            Debug.Log("Cambia pos");
+            transform.localPosition += new Vector3(1.9f, 0, 0);
+        }
         GetComponent<Collider>().enabled = false;
         Destroy(gameObject, 2f);
 

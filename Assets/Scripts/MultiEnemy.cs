@@ -25,6 +25,9 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
 
     private MultiLevelManager levelManager;
 
+    [SerializeField]
+    private bool pez;
+
     //Audio
     [SerializeField]
     private AudioClip roar;
@@ -130,12 +133,16 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    private void Die(Player _owner)
+    public void Die(Player _owner)
     {
         //Desactivar followPlayer
         agent.isStopped = true;
         Muerto = true;
         animator.SetTrigger("Death");
+        if (pez == true)
+        {
+            transform.localPosition += new Vector3(1.9f, 0, 0);
+        }
         GetComponent<Collider>().enabled = false;
         
         Destroy(gameObject, 2f);

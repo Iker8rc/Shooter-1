@@ -89,16 +89,10 @@ public class GameSettings : MonoBehaviour
         }
         qualityDropdown.AddOptions(optionsQuality);
         qualityDropdown.value = dataSettings.quality;
-
-        //música y ambiente
-
-        AudioManager.instance.SetMusicVolume(dataSettings.musicVolume);
-        AudioManager.instance.SetSFXVolume(dataSettings.ambientVolume);
     }
     
     public void OnMusicSliderChanged()
     {
-        Debug.Log("Music slider changed");
         AudioManager.instance.SetMusicVolume(musicSlider.value);
     }
 

@@ -74,12 +74,12 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         rb = GetComponent<Rigidbody>();
         
         levelManager = FindObjectOfType<MultiLevelManager>();
-        levelManager.player = this;
 
         originalSpeed = speed;
         
         if(photonView.IsMine == true)
         {
+            levelManager.player = this;
             Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
         }
     }
@@ -259,33 +259,10 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             animator.SetTrigger("Death");
             isDead = true;
             MainMenu gameManager = FindAnyObjectByType<MainMenu>();
-            //gameManager.TodosMuertos();
-
             rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
             GetComponent<Collider>().enabled = false;
-        }
-    }
-    public void GlobalKills()
-    {
-        totalKills += 1;
-        Hashtable kills = new Hashtable
-        {
-            {"Kills", totalKills }
-        };
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(kills);
-        FindAnyObjectByType<MultiLevelManager>().UpdateKills();
-    }
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        if (changedProps.ContainsKey("Kills") == true)
-        {
-            //Panel final
-        }
-    }
-
-    /*
+            
             if (TodosMuertos() == true)
             {
                 FindAnyObjectByType<MainMenu>().TodosMuertos();
@@ -294,10 +271,9 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 StartCoroutine(RespawnCountdown());
             }
-
-            this.enabled = false;
         }
     }
+
     private bool TodosMuertos()
     {
         MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
@@ -329,7 +305,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Revivir()
     {
-        life = 5; 
+        life = 5;
         isDead = false;
 
         rb.isKinematic = false;
@@ -339,10 +315,26 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         Transform[] spawns = FindAnyObjectByType<MultiLevelManager>().spawnPoints;
         Transform randomSpawn = spawns[Random.Range(0, spawns.Length)];
         transform.position = randomSpawn.position;
-
         levelManager.UpdateLife();
     }
-    */
+    public void GlobalKills()
+    {
+        totalKills += 1;
+        Hashtable kills = new Hashtable
+        {
+            {"Kills", totalKills }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(kills);
+        FindAnyObjectByType<MultiLevelManager>().UpdateKills();
+    }
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("Kills") == true)
+        {
+            //Panel final
+        }
+    }
 
     public void Slow(float newSpeed, float duration) // Esto es del boss
     {

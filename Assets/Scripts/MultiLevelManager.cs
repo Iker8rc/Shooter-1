@@ -35,10 +35,7 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        levelManager = FindObjectOfType<MultiLevelManager>();
         PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
-        player = FindObjectOfType<MultiplayerController>();  
-
         StartCoroutine(HeartSpawnea());    
     }
 
