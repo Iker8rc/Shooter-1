@@ -26,11 +26,6 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     public bool isDead = false;
     public int totalKills;
 
-    [SerializeField] 
-    private GameObject respawnPanel;
-    [SerializeField] 
-    private TMPro.TextMeshProUGUI respawnText;
-
     [SerializeField]
     private float bulletSpeed;
     [SerializeField]
@@ -142,8 +137,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
                     if (rbBullet != null)
                     {
-                        rbBullet.linearVelocity = bulletClone.transform.forward * bulletSpeed;
-                         
+                        rbBullet.linearVelocity = bulletClone.transform.forward * bulletSpeed;               
                     }
                 
                     MultiBullet bulletScript = bulletClone.GetComponent<MultiBullet>();
@@ -153,7 +147,6 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                         Debug.Log("BalaDisparao");
                         bulletScript.owner = photonView.Owner;
                     }
-                    //photonView.RPC("CopyShoot", RpcTarget.Others);
                 }
             }
                  
@@ -263,59 +256,15 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
             rb.isKinematic = true;
             GetComponent<Collider>().enabled = false;
             
-            if (TodosMuertos() == true)
+            if (levelManager.TodosMuertos())
             {
                 FindAnyObjectByType<MainMenu>().TodosMuertos();
             }
             else
             {
-                StartCoroutine(RespawnCountdown());
+                StartCoroutine(levelManager.RespawnCountdown(this));
             }
         }
-    }
-
-    private bool TodosMuertos()
-    {
-        MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
-
-        foreach (var player in players)
-        {
-            if (player.isDead == false)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    private System.Collections.IEnumerator RespawnCountdown()
-    {
-        respawnPanel.SetActive(true);
-
-        int time = 3;
-        while (time > 0)
-        {
-            respawnText.text = "" + time;
-            yield return new WaitForSeconds(1f);
-            time--;
-        }
-
-        respawnPanel.SetActive(false);
-        Revivir();
-    }
-
-    private void Revivir()
-    {
-        life = 5;
-        isDead = false;
-
-        rb.isKinematic = false;
-        GetComponent<Collider>().enabled = true;
-        this.enabled = true;
-
-        Transform[] spawns = FindAnyObjectByType<MultiLevelManager>().spawnPoints;
-        Transform randomSpawn = spawns[Random.Range(0, spawns.Length)];
-        transform.position = randomSpawn.position;
-        levelManager.UpdateLife();
     }
     public void GlobalKills()
     {

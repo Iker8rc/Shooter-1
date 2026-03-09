@@ -153,15 +153,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e56fa12a4bf744e81a78dc3fe15899aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 343.7257
+      value: 280.0681
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e56fa12a4bf744e81a78dc3fe15899aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -80.89579
+      value: 182.36389
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e56fa12a4bf744e81a78dc3fe15899aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 254.39154
+      value: -298.88742
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e56fa12a4bf744e81a78dc3fe15899aa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -390,6 +390,7 @@ MonoBehaviour:
   - {fileID: 8633036789522712123}
   - {fileID: 4157407053349041023}
   - {fileID: 3168181183956217819}
+  - {fileID: 4970168806417424984}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -414,8 +415,6 @@ MonoBehaviour:
   bulletDamage: 50
   isDead: 0
   totalKills: 0
-  respawnPanel: {fileID: 0}
-  respawnText: {fileID: 0}
   bulletSpeed: 20
   shootCooldown: 0.3
   isPaused: 0
@@ -469,5 +468,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonAnimatorView
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: Run
+  - Type: 9
+    SynchronizeType: 0
+    Name: Death
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0

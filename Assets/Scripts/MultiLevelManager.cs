@@ -30,13 +30,19 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
     [SerializeField] 
     private int hearts = 3;
 
+    [SerializeField] 
+    private GameObject respawnPanel;
+    [SerializeField] 
+    private TMPro.TextMeshProUGUI respawnText;
+
     public MultiplayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
-        StartCoroutine(HeartSpawnea());    
+        StartCoroutine(HeartSpawnea());   
+         
     }
 
     // Update is called once per frame
@@ -106,5 +112,49 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
     void RPC_WinPanel()
     {
         winPanel.SetActive(true);
+    }
+    
+    public bool TodosMuertos()
+    {
+        MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
+        foreach (var player in players)
+        {
+            if (player.isDead == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public IEnumerator RespawnCountdown(MultiplayerController playerToRespawn)
+    {
+        respawnPanel.SetActive(true);
+        int time = 3;
+
+        while (time > 0)
+        {
+            respawnText.text = "" + time;
+            yield return new WaitForSeconds(1f);
+            time--;
+        }
+
+        respawnPanel.SetActive(false);
+        Revivir(player);
+    }
+
+    private void Revivir(MultiplayerController player)
+    {
+        player.life = player.maxLife;
+        player.isDead = false;
+
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        player.GetComponent<Collider>().enabled = true;
+
+        Transform randomSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        player.transform.position = randomSpawn.position;
+
+        UpdateLife();
     }
 }
