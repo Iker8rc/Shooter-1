@@ -301,6 +301,7 @@ MonoBehaviour:
   tiempoEntreHordas: 120
   enemigosPorHorda: 5
   timerText: {fileID: 2128818474}
+  levelManager: {fileID: 0}
 --- !u!4 &9370765
 Transform:
   m_ObjectHideFlags: 0
@@ -20990,6 +20991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamMultiplayerController
   camOffset: {x: -3.34, y: 10.89, z: 0}
+  debugText: {fileID: 0}
 --- !u!114 &572402132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82089,6 +82091,7 @@ PrefabInstance:
     - {fileID: 8625317685201329414, guid: 33bc52d1f8fd1284490f30eab3448d11, type: 3}
     - {fileID: -4936310300045895161, guid: 33bc52d1f8fd1284490f30eab3448d11, type: 3}
     - {fileID: -7732781055199758246, guid: 33bc52d1f8fd1284490f30eab3448d11, type: 3}
+    - {fileID: -2377678898046858952, guid: 33bc52d1f8fd1284490f30eab3448d11, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6867423099470941597, guid: 33bc52d1f8fd1284490f30eab3448d11, type: 3}
