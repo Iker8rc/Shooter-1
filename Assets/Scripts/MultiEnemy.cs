@@ -66,7 +66,9 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         {
             return;
         }
-        if (targetPlayer.GetComponent<MultiplayerController>().isDead == true)
+
+        MultiplayerController player = targetPlayer.GetComponent<MultiplayerController>();
+        if (player == null || player.isDead)
         {
             agent.isStopped = true;
             animator.SetBool("Iddle", true);

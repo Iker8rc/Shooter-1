@@ -51,6 +51,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinRandomFailed(short returnCode, string message) //Cuando da fallo al unirnos a una sala random
     {
+        Debug.Log("No encuentra room");
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayers }); //Para crear sala
     }
     public override void OnJoinedRoom()
@@ -83,7 +84,6 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             {"Ready", true }
         };
-        muñeco.SetActive(true);
         PhotonNetwork.LocalPlayer.SetCustomProperties(ready);
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

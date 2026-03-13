@@ -53,11 +53,14 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(ejemplo);
             stream.SendNext(life);
+            stream.SendNext(isDead);
+
         }
         else
         {
             ejemplo = (bool)stream.ReceiveNext();
             life = (float)stream.ReceiveNext();
+            isDead = (bool)stream.ReceiveNext();
         }
     }
 
@@ -71,8 +74,12 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         levelManager = FindObjectOfType<MultiLevelManager>();
 
         originalSpeed = speed;
-        
-        if(photonView.IsMine == true)
+        //Invoke("CamSet", 1);    
+    }
+
+    private void CamSet()
+    {
+        if (photonView.IsMine == true)
         {
             levelManager.player = this;
             Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
@@ -86,7 +93,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        if (isPaused) 
+        if (isPaused || isDead) 
         {
             return;   
         }
@@ -125,7 +132,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if(context.performed == true)
             {
-                if (life <= 0) 
+                if (life <= 0 || isDead) 
                 {
                     return;
                 }

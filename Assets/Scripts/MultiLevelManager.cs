@@ -35,14 +35,19 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
     [SerializeField] 
     private TMPro.TextMeshProUGUI respawnText;
 
+
     public MultiplayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
-        StartCoroutine(HeartSpawnea());   
-         
+        GameObject player = PhotonNetwork.Instantiate("Player", spawnPoints[0].position, spawnPoints[0].rotation);
+        if (Camera.main != null)
+        {
+            Camera.main.GetComponent<CamMultiplayerController>().debugText.text = "Cam existe";
+        }
+        
+        StartCoroutine(HeartSpawnea());            
     }
 
     // Update is called once per frame
@@ -104,16 +109,9 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
     }
     public void Win()
     {
-        PhotonView photonV = GetComponent<PhotonView>();
-        photonV.RPC("RPC_WinPanel", RpcTarget.All);    
-    }
-
-    [PunRPC]
-    void RPC_WinPanel()
-    {
         winPanel.SetActive(true);
     }
-    
+
     public bool TodosMuertos()
     {
         MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
@@ -151,6 +149,9 @@ public class MultiLevelManager : MonoBehaviourPunCallbacks
         Rigidbody rb = player.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         player.GetComponent<Collider>().enabled = true;
+
+        //Animator Death en false
+
 
         Transform randomSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
         player.transform.position = randomSpawn.position;
