@@ -134,6 +134,9 @@ MonoBehaviour:
   attackRange: 2.5
   damage: 2
   attackCooldown: 1.5
+  pez: 0
+  roar: {fileID: 8300000, guid: 7378aa313bccc13499796bd9254df21d, type: 3}
+  death: {fileID: 8300000, guid: d5a6884b32678674782a71e5b2e3e0dc, type: 3}
   slowSpeed: 6
   slowDuration: 7
 --- !u!54 &4008678914477957469

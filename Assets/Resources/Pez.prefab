@@ -463,8 +463,8 @@ MonoBehaviour:
   damage: 1
   attackCooldown: 1.2
   pez: 1
-  roar: {fileID: 0}
-  death: {fileID: 0}
+  roar: {fileID: 8300000, guid: 7378aa313bccc13499796bd9254df21d, type: 3}
+  death: {fileID: 8300000, guid: b7b7e7571490a584b9c21a0e45ccc169, type: 3}
   knockBackForce: 10
   touchCooldown: 0.5
 --- !u!136 &359832440394982839

@@ -113,6 +113,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         {
             return;      
         }
+        AudioManager.instance.PlaySFX(roar, transform.position);
         animator.SetTrigger("Attack"); 
         attackTimer = attackCooldown;
     }
@@ -138,6 +139,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     public void Die(Player _owner)
     {
         //Desactivar followPlayer
+        AudioManager.instance.PlaySFX(death, transform.position);
         agent.isStopped = true;
         Muerto = true;
         animator.SetTrigger("Death");
@@ -146,8 +148,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
             transform.localPosition += new Vector3(1.9f, 0, 0);
         }
         GetComponent<Collider>().enabled = false;
-        
-        Destroy(gameObject, 2f);
+        StartCoroutine(DestroyEnemy());
         
         if (_owner != null)
         {
@@ -159,6 +160,15 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
                     player.GlobalKills();
                 }
             }
+        }
+    }
+
+    private System.Collections.IEnumerator DestroyEnemy()
+    {
+        yield return new WaitForSeconds(2f);
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 

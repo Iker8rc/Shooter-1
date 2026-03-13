@@ -5,7 +5,6 @@ public class CamMultiplayerController : MonoBehaviour
 {
     private Transform player;
     public Vector3 camOffset;
-    public TextMeshProUGUI debugText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,11 +18,9 @@ public class CamMultiplayerController : MonoBehaviour
         
         if (player == null)
         {
-            //debugText.text = "Player Null";
             return;
         }
         transform.position = player.position+camOffset;
-        debugText.text = transform.position.ToString();
     }
     public void SetPlayer(Transform _player)
     {

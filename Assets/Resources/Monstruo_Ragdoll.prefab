@@ -140,6 +140,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4599427668908575719}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9064713900436512428}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3382581478793906580}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661710594942560077}
     - targetCorrespondingSourceObject: {fileID: -3585582068520486076, guid: c86764354e2f67a429690b4bb6426edd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7068200015414979264}
@@ -789,6 +798,9 @@ MonoBehaviour:
   attackRange: 2
   damage: 1
   attackCooldown: 1.2
+  pez: 0
+  roar: {fileID: 8300000, guid: 7378aa313bccc13499796bd9254df21d, type: 3}
+  death: {fileID: 8300000, guid: c00fc587dc3b4a94eb33012b664079b4, type: 3}
 --- !u!136 &4599427668908575719
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -812,6 +824,63 @@ CapsuleCollider:
   m_Height: 2.078252
   m_Direction: 1
   m_Center: {x: 0.009069324, y: 1.0079361, z: 0}
+--- !u!114 &-9064713900436512428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5144967523411516438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1496491460702645639}
+  - {fileID: -3382581478793906580}
+  - {fileID: 661710594942560077}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-3382581478793906580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5144967523411516438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &661710594942560077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5144967523411516438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonRigidbodyView
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!4 &5485223537993121910 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 556367018499072305, guid: c86764354e2f67a429690b4bb6426edd, type: 3}

@@ -73,21 +73,18 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         
         levelManager = FindObjectOfType<MultiLevelManager>();
 
-        originalSpeed = speed;
-        //Invoke("CamSet", 1);    
+        originalSpeed = speed;  
+        
+        if(photonView.IsMine == true) 
+        { 
+            levelManager.player = this; 
+            Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform); 
+        } 
     }
 
-    private void CamSet()
-    {
-        if (photonView.IsMine == true)
-        {
-            levelManager.player = this;
-            Camera.main.GetComponent<CamMultiplayerController>().SetPlayer(transform);
-        }
-    }
     void Awake()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -138,7 +135,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 if (timePass>= shootCooldown)
                 {   
-                    //AudioManager.instance.PlaySFX(shoot, transform.position);
+                    AudioManager.instance.PlaySFX(shoot, transform.position);
                     timePass = 0;
                     GameObject bulletClone = PhotonNetwork.Instantiate("MultiBullet", bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     Rigidbody rbBullet = bulletClone.GetComponent<Rigidbody>();
@@ -255,7 +252,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (life <= 0)
         {
-            //AudioManager.instance.PlaySFX(muerte, transform.position);
+            AudioManager.instance.PlaySFX(muerte, transform.position);
             animator.SetTrigger("Death");
             isDead = true;
             MainMenu gameManager = FindAnyObjectByType<MainMenu>();

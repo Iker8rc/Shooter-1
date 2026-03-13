@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class HordasEnemigos : MonoBehaviour
+public class MultiHordasManager : MonoBehaviourPunCallbacks
 {
     [Header("Prefabs enemigos")]
     public GameObject[] enemigosPrefabs = new GameObject[2];
@@ -20,16 +21,19 @@ public class HordasEnemigos : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI timerText;
 
-    public SoloLevelManager levelManager;
+    public MultiLevelManager levelManager;
     private float tiempoPasado = 0f;
     private int hordasGeneradas = 0;
     private bool spawnActivo = true;
 
     void Start()
     {
-        StartCoroutine(ControlHordas());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(ControlHordas());
+        }
         StartCoroutine(ContadorTiempo());
-        levelManager = FindObjectOfType<SoloLevelManager>();
+        levelManager = FindObjectOfType<MultiLevelManager>();
     }
 
     IEnumerator ControlHordas()
@@ -76,13 +80,13 @@ public class HordasEnemigos : MonoBehaviour
         {
             Transform punto = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject prefabAleatorio = enemigosPrefabs[Random.Range(0, enemigosPrefabs.Length)];
-            Instantiate(prefabAleatorio, punto.position, punto.rotation);
+            PhotonNetwork.Instantiate(prefabAleatorio.name, punto.position, punto.rotation);
         }
 
         if (Boss && bossPrefab != null)
         {
             Transform spawnBoss = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            Instantiate(bossPrefab, spawnBoss.position, spawnBoss.rotation);
+            PhotonNetwork.Instantiate(bossPrefab.name, spawnBoss.position, spawnBoss.rotation);
         }
     }
 
