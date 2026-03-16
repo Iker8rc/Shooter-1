@@ -59,6 +59,7 @@ public class GameSettings : MonoBehaviour
     {
         string data = JsonUtility.ToJson(dataSettings);
         PlayerPrefs.SetString("SettingsData", data);
+        PlayerPrefs.Save();
     }
 
     private void SetUIElements()
@@ -89,6 +90,9 @@ public class GameSettings : MonoBehaviour
         }
         qualityDropdown.AddOptions(optionsQuality);
         qualityDropdown.value = dataSettings.quality;
+
+        AudioManager.instance.SetMusicVolume(dataSettings.musicVolume);
+        AudioManager.instance.SetSFXVolume(dataSettings.ambientVolume);
     }
     
     public void OnMusicSliderChanged()
