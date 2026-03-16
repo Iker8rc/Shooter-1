@@ -76,9 +76,9 @@ public class MainMenu : MonoBehaviourPunCallbacks
     {
         MultiplayerController[] players = FindObjectsOfType<MultiplayerController>();
 
-        foreach (var p in players)
+        foreach (var player in players)
         {
-            if (p.isDead == false) 
+            if (player.isDead == false) 
             {
                 return; 
             }

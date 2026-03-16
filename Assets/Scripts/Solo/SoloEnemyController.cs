@@ -133,7 +133,6 @@ public class SoloEnemyController : MonoBehaviour
 
         player.totalKills++;
         levelManager.UpdateKills();
- 
     }
 }
 

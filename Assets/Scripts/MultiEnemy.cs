@@ -34,6 +34,21 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private AudioClip death;
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting == true)
+        {
+            stream.SendNext(life);
+            stream.SendNext(damage);
+            stream.SendNext(Muerto);
+        }
+        else
+        {
+            life = (float)stream.ReceiveNext();
+            damage = (float)stream.ReceiveNext();
+            Muerto = (bool)stream.ReceiveNext();    
+        }
+    }
     private Transform FollowPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -68,7 +83,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         MultiplayerController player = targetPlayer.GetComponent<MultiplayerController>();
-        if (player == null || player.isDead)
+        if (player == null || levelManager.TodosMuertos())
         {
             agent.isStopped = true;
             animator.SetBool("Iddle", true);
@@ -100,7 +115,6 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         //cooldown
-
         if (attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;
@@ -137,7 +151,6 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
 
     public void Die(Player _owner)
     {
-        //Desactivar followPlayer
         agent.isStopped = true;
         Muerto = true;
         animator.SetTrigger("Death");
@@ -146,8 +159,7 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
             transform.localPosition += new Vector3(1.9f, 0, 0);
         }
         GetComponent<Collider>().enabled = false;
-        
-        Destroy(gameObject, 2f);
+        photonView.RPC("MatarEnemigo", RpcTarget.All);
         
         if (_owner != null)
         {
@@ -155,22 +167,17 @@ public class MultiEnemy : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (player.photonView.Owner == _owner) 
                 {
-                    Debug.Log("JugadorLoMata");
                     player.GlobalKills();
                 }
             }
         }
     }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    [PunRPC]
+    public void MatarEnemigo()
     {
-        if (stream.IsWriting == true)
+        if(PhotonNetwork.IsMasterClient == true)
         {
-            stream.SendNext(life);
-        }
-        else
-        {
-            life = (float)stream.ReceiveNext();
+            PhotonNetwork.Destroy(gameObject); //AÑADIR ESPERAR 2 SEGUNDOS
         }
     }
 }

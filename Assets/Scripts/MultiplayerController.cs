@@ -4,8 +4,6 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-
 public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField]
@@ -74,7 +72,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         levelManager = FindObjectOfType<MultiLevelManager>();
 
         originalSpeed = speed;
-        //Invoke("CamSet", 1);    
+        CamSet();
     }
 
     private void CamSet()
@@ -213,36 +211,6 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
     
-    //En el script del enemigo //
-    
-    /*public void TakeDamage(float _damage, Player player)
-    {
-        life -= _damage;
-        if (life <= 0)
-        {
-            animator.SetTrigger("Death");
-            int deaths = 0;
-            if(player.CustomProperties.ContainsKey("Muertes")== true)
-            {
-                object muertes;
-                player.CustomProperties.TryGetValue("Muertes", out muertes);
-                deaths = (int)muertes;
-                deaths += 1;        
-            }
-            else
-            {
-               deaths = 1;
-
-            }
-            Hashtable muerdeths = new Hashtable { { "Muertes", deaths } };
-            player.SetCustomProperties(muerdeths);
-        }
-        
-        else
-        {
-            animator.SetTrigger("Death");
-        }  
-    } */
     public void TakeDamage2(float damage2)
     {
         if (photonView.IsMine == false)
@@ -256,7 +224,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (life <= 0)
         {
             //AudioManager.instance.PlaySFX(muerte, transform.position);
-            animator.SetTrigger("Death");
+            animator.SetBool("Death", true);
             isDead = true;
             MainMenu gameManager = FindAnyObjectByType<MainMenu>();
             rb.linearVelocity = Vector3.zero;

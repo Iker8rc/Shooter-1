@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9370765}
-  - component: {fileID: 9370764}
+  - component: {fileID: 9370766}
   m_Layer: 0
   m_Name: Hordas2
   m_TagString: Untagged
@@ -272,36 +272,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &9370764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9370763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2545ce8133a9c04a8b07949a277f5d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HordasEnemigos
-  enemigosPrefabs:
-  - {fileID: 8079502659242268952, guid: 18a256bc1a3b99c4db3039d86be39c3b, type: 3}
-  - {fileID: 4351391587764620680, guid: 6ac62443ecb7e594399a30bfb61e69ce, type: 3}
-  bossPrefab: {fileID: 4199403027035716445, guid: 693e01c5c30a95d4e88d79cfa3fb2d76, type: 3}
-  spawnPoints:
-  - {fileID: 289716066}
-  - {fileID: 19169798}
-  - {fileID: 207445199}
-  - {fileID: 1077227196}
-  - {fileID: 1931246998}
-  - {fileID: 1987015532}
-  - {fileID: 690056175}
-  - {fileID: 225393303}
-  duracionTotal: 600
-  tiempoEntreHordas: 120
-  enemigosPorHorda: 5
-  timerText: {fileID: 2128818474}
-  levelManager: {fileID: 0}
 --- !u!4 &9370765
 Transform:
   m_ObjectHideFlags: 0
@@ -317,6 +287,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9370766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9370763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00448b8a36074eb4ab6609f0930ae3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiHordas
+  enemigosPrefabs:
+  - Pez
+  - Monstruo_Ragdoll
+  bossPrefab: BOSS
+  spawnPoints:
+  - {fileID: 289716066}
+  - {fileID: 19169798}
+  - {fileID: 207445199}
+  - {fileID: 1077227196}
+  - {fileID: 1931246998}
+  - {fileID: 1987015532}
+  - {fileID: 690056175}
+  - {fileID: 225393303}
+  duracionTotal: 600
+  tiempoEntreHordas: 120
+  enemigosPorHorda: 5
+  timerText: {fileID: 2128818474}
+  levelManager: {fileID: 0}
 --- !u!1001 &9904996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20991,7 +20991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamMultiplayerController
   camOffset: {x: -3.34, y: 10.89, z: 0}
-  debugText: {fileID: 0}
 --- !u!114 &572402132
 MonoBehaviour:
   m_ObjectHideFlags: 0
